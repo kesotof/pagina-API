@@ -225,7 +225,9 @@ nav ul li a {
 }
 .dropdown-section ul li {
     padding: 5px 0;
+    color: black;
 }
+
 .category-tags {
     display: flex;
     flex-wrap: wrap;
@@ -262,6 +264,7 @@ nav ul li a {
     background-color: #f0f0f0;
     border-radius: 10px;
     overflow: hidden;
+    height: 150px;
 }
 .collection-card img {
     width: 100%;
