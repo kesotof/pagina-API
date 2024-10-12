@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear campaña</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Crear campaña</h2>
+        <form id="campana-form">
+            <label for="creator">Creador:</label>
+            <input id="creator" name="creator" required>
+    
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+    
+            <label for="category">Categoría:</label>
+            <select id="category" name="category" required>
+                <option value="Tecnología">Tecnología</option>
+                <option value="Juegos">Juegos</option>
+                <option value="Cómics & manga">Cómics & manga</option>
+            </select>
+    
+            <label for="image">URL de Imagen:</label>
+            <input type="url" id="image" name="image" required>
+    
+            <label for="precio">Recaudar:</label>
+            <input type="number" id="precio" name="precio" step="0.01" required>
+    
+            <button type="submit">Guardar campaña</button>
+        </form>
+    </div>
+        <a href="ver.html"><button>Ver campañas</button></a>
+
+<a href="inicio.html"><button>iniciar</button></a>
+<script src="/js/crearCampaña.js"></script>
+
+</body>
+</html>

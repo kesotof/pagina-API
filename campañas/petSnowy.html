@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/Campañas/pet.css">
+</head>
+<body>
+    <header class="header">
+        <a href="/paginaPrincipal.html" class="logo">API</a>
+        <nav class="nav-links">
+            <a href="/catalogo/litado.html" class="exp">Explorar</a>
+            <div class="search-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" placeholder="Buscar Campaña">
+            </div>
+            <a href="#" class="login-signup">Login / Sign up</a>
+            <a href="#" class="start-campaign">INICIAR CAMPAÑA</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="carousel-container">
+            <img src="/image/campaña/pet1.jpg" alt="Imagen 1" class="main-image active">
+            <img src="/image/campaña/pet2.jpg" alt="Imagen 2" class="main-image">
+            <img src="/image/campaña/pet3.jpg" alt="Imagen 3" class="main-image">
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+            <div class="thumbnail-container">
+                <img src="/image/campaña/pet1.jpg" alt="Miniatura 1" class="thumbnail active-thumbnail" onclick="currentSlide(0)">
+                <img src="/image/campaña/pet2.jpg" alt="Miniatura 2" class="thumbnail" onclick="currentSlide(1)">
+                <img src="/image/campaña/pet3.jpg" alt="Miniatura 3" class="thumbnail" onclick="currentSlide(2)">
+            </div>
+        </div>
+        <div class="product-info">
+            <p class="funding-label">FONDOS</p>
+            <h1>PetSnowy SMILE: Reinventando la forma en que secamos a nuestras mascotas</h1>
+            <p class="features">Sistema de secado sin escobillas | Comodidad transpirable | Diseño modular | Seguridad superior | Tecnología de iones | Control por aplicación</p>
+            <div class="company-info">
+                <img src="/image/campaña/petCreador.jpg" alt="PetSnowy Inc logo" class="company-logo">
+                <div>
+                    <strong>PetSnowy Inc</strong>
+                    <p>1 Campañas · valparaiso, Chile</p>
+                </div>
+            </div>
+            <div class="funding-progress">
+                <h2>$302.638 CLP</h2>
+                <p>de $1.000.000 CLP recaudados</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <p>10 Donadores</p>
+            </div>
+            <button class="cta-button">Patrocina este proyecto</button>
+        </div>
+
+    <script src="/js/campañas/pets.js"></script>
+</body>
+</html>

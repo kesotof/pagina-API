@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - Crowdfunding</title>
+    <link rel="stylesheet" href="css/principal.css">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <div class="logo" id="logo">API</div>
+        <nav>
+            <ul>
+                <li><a id="exploreLink">Explorar</a></li>
+            </ul>
+        </nav>
+        <input type="search" placeholder="Buscar campañas" class="search-bar" id="searchBar">
+        <div class="user-actions">
+            <a href="" id="loginLink">Login / Sign up</a>
+            <div id="popover" class="popover" style="display:none;">
+                <p>Perfil de Usuario</p>
+                <button id="cerrarSesionBtn">Cerrar Sesión</button>
+                <button id="editarPerfilBtn">Editar Perfil</button>
+                <button id="configuracionBtn">Configuración</button>
+            </div>
+            <a href="prueba.html"><button class="btn" id="campaignBtn">INICIAR CAMPAÑA</button></a>
+        </div>
+    </header>
+
+    <div id="exploreDropdown" class="dropdown-overlay">
+        <div class="category-tags">
+            <button class="category-tag">🎮 Video Juegos</button>
+            <button class="category-tag">📱 Tecnologia</button>
+            <button class="category-tag">📖 libros / comics</button>
+        </div>
+        <div class="dropdown-content">
+            <div class="dropdown-section">
+                <h3>FILTROS</h3>
+                <ul>
+                    <li>TODAS LAS CAMPAÑAS</li>
+                    <li>Tecnologia</li>
+                    <li>Recien lanzado</li>
+                    <li>Proximos proyectos</li>
+                </ul>
+            </div>
+            <div class="dropdown-section">
+                <h3>LO MAS POPULAR</h3>
+                <ul>
+                    <li>Mascota</li>
+                    <li>Bicicleta</li>
+                    <li>Maquina de cafe</li>
+                    <li>Consola</li>
+                </ul>
+            </div>
+            <div class="dropdown-section">
+                <h3>COLECCIONES DESTACADAS</h3>
+                <div class="featured-collections">
+                    <div class="collection-card">
+                        <img src="/api/placeholder/400/200" alt="5 proyectos">
+                        <h3>los 5 mejores proyectos</h3>
+                    </div>
+                    <div class="collection-card">
+                        <img src="/api/placeholder/400/200" alt="Team Favorites">
+                        <h3>Equipos Favoritos</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="carousel">
+        <div class="slide active" style="background-image: url('image/petsnowy.jpg');">
+            <div class="slide-content">
+                <h1>PetSnowy SMILE: Reinventando la forma en que secamos a nuestras mascotas.</h1>
+                <a href="/campañas/petSnowy.html" class="btnn">Ver campaña</a>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('image/FrozenPack.jpg');">
+            <div class="slide-content">
+                <h1>Litheli FrozenPack: La primera nevera de automóvil en forma de mochila.</h1>
+                <a href="prueba.html" class="btnn">Ver campaña</a>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('image/agua.jpg');">
+            <div class="slide-content">
+                <h1>La próxima generación: dispensador de agua atmosférica 3 en 1.</h1>
+                <a href="/campañas/petSnowy.html" class="btnn">Ver campaña</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-slider">
+        <div class="card">
+            <img src="image/petsnowy.jpg" alt="Pet">
+        </div>
+        <div class="card">
+            <img src="image/FrozenPack.jpg" alt="Frozen">
+        </div>
+        <div class="card">
+            <img src="image/agua.jpg" alt="Agua">
+        </div>
+    </div>
+
+    <div class="containers"> 
+        <h1>Proyectos en curso</h1>
+        <div class="navigationss">
+            <button class="nav-buttonss" onclick="navigate(-1)">&lt;</button>
+            <button class="nav-buttonss" onclick="navigate(1)">&gt;</button>
+        </div>
+        <div class="categories">
+            <div class="categorys active">Populares</div>
+            <div class="categorys">Cómics & manga</div>
+            <div class="categorys">Juegos</div>
+            <div class="categorys">Tecnología</div>
+        </div>
+        <div class="projectos-container" id="projectosContainer">
+            <!-- Los proyectos se insertarán aquí dinámicamente -->
+        </div>
+        <a href="/catalogo/litado.html" class="view-alls">VER TODOS LOS PROYECTOS</a>
+    </div>
+
+    <div class="real">
+        <h2>Haz realidad un proyecto creativo</h2>
+        <p>En API:</p>
+        <div class="grids">
+            <div class="datos">
+                <h2>1</h2>
+                <p>proyectos financiados</p>
+            </div>
+            <div class="datos">
+                <h2>100.000 $</h2>
+                <p>destinados al trabajo creativo</p>
+            </div>
+            <div class="datos">
+                <h2>1</h2>
+                <p>contribuciones</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <div class="hero-image">
+          <img src="image/globo.jpg" alt="Illustration">
+        </div>
+        <div class="hero-content">
+          <h1>Haz realidad tu proyecto <br>¡Empieza tu API!</h1>
+          <p>Somos un equipo de apasionados por la cultura y la creatividad que te acomañara en toda tu aventura.
+            Con las mejores herramientas y el porcentaje de éxito más alto del mundo. ¿A qué estás esperando?</p>
+          <a href="prueba.html"><button>¡Empieza tu proyecto!</button></a>
+        </div>
+    </div>
+    <a href="/campañas/tCampaña.html"></a>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>API</h3>
+                <ul>
+                    <li>Explorar</li>
+                    <li>Buscar</li>
+                    <li>Inicio de Campaña</li>
+                    <li>Blog</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACTO</h3>
+                <ul>
+                    <li>Correo</li>
+                    <li>Ubicación</li>
+                    <li>Teléfono</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="js/principal.js"></script>
+    <script src="js/campañas.json"></script>
+    <script src="js/usuarios.js"></script>
+    <script src="js/projectos.js"></script>
+</body>
+</html>
+
