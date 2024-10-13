@@ -40,7 +40,7 @@ async function cargarProyectos() {
 // Filtrar proyectos según la categoría seleccionada
 async function filtrarProyectos(categoria) {
     const contenedor = document.getElementById('campanas-container');
-    contenedor.innerHTML = ''; // Limpia el contenedor
+    contenedor.innerHTML = '';
 
     const proyectos = await cargarProyectos();
     let proyectosFiltrados = proyectos;
@@ -56,10 +56,13 @@ async function filtrarProyectos(categoria) {
 
     proyectosFiltrados.forEach(proyecto => {
         let redirectUrl;
-
-        // Si el proyecto viene de los proyectos iniciales, usar su redirect, sino usar el redirect de las campañas nuevas
-        const esProyectoInicial = proyectosIniciales.some(p => p.title === proyecto.title);
-        redirectUrl = esProyectoInicial ? (proyecto.redirect || '#') : `/campañas/tCampaña.html?id=${encodeURIComponent(proyecto.title || proyecto.titulo)}`;
+        
+        // Excepción para el proyecto NitroPress
+        if (proyecto.title === "Máquinas NitroPress" && proyecto.redirect) {
+            redirectUrl = proyecto.redirect;
+        } else {
+            redirectUrl = `/campañas/tCampaña.html?id=${encodeURIComponent(proyecto.title || proyecto.titulo)}`;
+        }
 
         contenedor.innerHTML += `
             <div class="producto">
@@ -80,19 +83,19 @@ async function filtrarProyectos(categoria) {
 function actualizarBotones(categoriaSeleccionada) {
     const botonesCategorias = document.querySelectorAll('.boton-categoria');
 
-botonesCategorias.forEach(boton => {
-    boton.addEventListener('click', () => {
-        // Elimina la clase 'active' de todos los botones
-        botonesCategorias.forEach(btn => btn.classList.remove('active'));
+    botonesCategorias.forEach(boton => {
+        boton.addEventListener('click', () => {
+            // Elimina la clase 'active' de todos los botones
+            botonesCategorias.forEach(btn => btn.classList.remove('active'));
 
-        // Añade la clase 'active' al botón que se clickeó
-        boton.classList.add('active');
+            // Añade la clase 'active' al botón que se clickeó
+            boton.classList.add('active');
 
-        // Actualiza el título principal
-        const titulo = boton.textContent.trim();
-        document.getElementById('titulo-principal').textContent = titulo;
+            // Actualiza el título principal
+            const titulo = boton.textContent.trim();
+            document.getElementById('titulo-principal').textContent = titulo;
+        });
     });
-});
 }
 
 // Maneja la selección de categoría
@@ -111,3 +114,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('Libros').addEventListener('click', () => manejarCambioCategoria("Libros"));
     document.getElementById('Juegos').addEventListener('click', () => manejarCambioCategoria("Juegos"));
 });
+
+// Función para mostrar todo el contenido de localStorage (para depuración)
+function mostrarLocalStorage() {
+    console.log("Contenido completo de localStorage:");
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        console.log(key, ":", localStorage.getItem(key));
+    }
+}
+
+// Llamar a la función para mostrar localStorage al cargar la página
+mostrarLocalStorage();

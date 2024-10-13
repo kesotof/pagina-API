@@ -6,7 +6,7 @@
         "titulo": "Smartphone 9",
         "descripcion": "Un teléfono inteligente de última generación con pantalla de 6.5 pulgadas.",
         "imagen": "/image/proyectosD/magic.jpg",
-        "precio": 799.99,
+        "meta": 799999,
         "funded":12,
         "category": "Tecnología"
     }

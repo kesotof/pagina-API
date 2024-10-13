@@ -8,9 +8,9 @@ function crearCampana(event) {
     const descripcion = document.getElementById("descripcion").value;
     const category = document.getElementById("category").value;
     const image = document.getElementById("image").value;
-    const precio = document.getElementById("precio").value;
+    const meta = document.getElementById("meta").value;
 
-    console.log("Datos del formulario:", { creator, title, descripcion, category, image, precio });
+    console.log("Datos del formulario:", { creator, title, descripcion, category, image, meta });
 
     let campanas = [];
     try {
@@ -30,7 +30,7 @@ function crearCampana(event) {
         descripcion,
         category,
         image,
-        precio: parseFloat(precio),
+        meta: parseFloat(meta),
         funded: 0
     };
     console.log("Nueva campaña a crear:", nuevaCampana);

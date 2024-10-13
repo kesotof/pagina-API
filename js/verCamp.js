@@ -34,8 +34,8 @@ function mostrarCampanas() {
             <p>Creador: ${campana.creator}</p>
             <p>Categoría: ${campana.category}</p>
             <p>Descripción: ${campana.descripcion}</p>
-            <p>Meta: $${campana.precio.toFixed(2)}</p>
-            <p>Financiado: $${(campana.precio * campana.funded / 100).toFixed(2)} (${campana.funded}%)</p>
+            <p>Meta: $${campana.precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
+            <p>Financiado: $${(campana.precio * campana.funded / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} (${campana.funded}%)</p>
             <div class="progress-bar">
                 <div class="progress" style="width: ${campana.funded}%"></div>
             </div>

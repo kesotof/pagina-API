@@ -66,8 +66,8 @@
         <div class="stats">
             <p>Creador: <span id="creator"></span></p>
             <p>Categoría: <span id="category"></span></p>
-            <p>Meta: $<span id="meta"></span></p>
-            <p>Financiado: $<span id="financiado"></span> (<span id="porcentaje"></span>%)</p>
+            <p>Meta: <span id="meta"></span> CLP</p>
+            <p>Financiado: <span id="financiado"></span> CLP (<span id="porcentaje"></span>%)</p>
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
             </div>
@@ -76,14 +76,14 @@
 
     <script>
         const proyectosIniciales = [
-        { title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60, category: "Tecnología", descripcion: "Descripción de NitroPress" },
-        { title: "Rayman® The Board Game", creator: "Flyos Games", image: "/image/proyectosD/rayman.jpg", funded: 43, category: "Juegos", descripcion: "Descripción de Rayman" },
-        { title: "Lezo", creator: "lezocomic", image: "/image/proyectosD/lezo.jpg", funded: 33, category: "Cómics & manga", descripcion: "Descripción de Lezo" },
-        { title: "Solar Card", creator: "Solarballs", image: "/image/proyectosD/solar.jpg", funded: 27, category: "Tecnología", descripcion: "Descripción de Solar Card" },
-        { title: "Disk Plus", creator: "Sharge Tech", image: "/image/proyectosD/disk.jpg", funded: 24, category: "Tecnología", descripcion: "Descripción de Disk Plus" },
-        { title: "Papadum y la tarta", creator: "Mike Bonales", image: "/image/proyectosD/papadum.jpg", funded: 21, category: "Cómics & manga", descripcion: "Descripción de Papadum y la tarta" },
-        { title: "Twisted Cryptids", creator: "Ramy Badie", image: "/image/proyectosD/twisted.jpg", funded: 18, category: "Juegos", descripcion: "Descripción de Twisted Cryptids" },
-        { title: "Lymow One", creator: "Lymow Tech", image: "/image/proyectosD/robot.jpg", funded: 15, category: "Tecnología", descripcion: "Descripción de Lymow One" }
+            { title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60, category: "Tecnología", descripcion: "Descripción de NitroPress", meta: 100000 }, // Ejemplo de meta
+            { title: "Rayman® The Board Game", creator: "Flyos Games", image: "/image/proyectosD/rayman.jpg", funded: 43, category: "Juegos", descripcion: "Descripción de Rayman", meta: 50000 },
+            { title: "Lezo", creator: "lezocomic", image: "/image/proyectosD/lezo.jpg", funded: 33, category: "Cómics & manga", descripcion: "Descripción de Lezo", meta: 30000 },
+            { title: "Solar Card", creator: "Solarballs", image: "/image/proyectosD/solar.jpg", funded: 27, category: "Tecnología", descripcion: "Descripción de Solar Card", meta: 20000 },
+            { title: "Disk Plus", creator: "Sharge Tech", image: "/image/proyectosD/disk.jpg", funded: 24, category: "Tecnología", descripcion: "Descripción de Disk Plus", meta: 40000 },
+            { title: "Papadum y la tarta", creator: "Mike Bonales", image: "/image/proyectosD/papadum.jpg", funded: 21, category: "Cómics & manga", descripcion: "Descripción de Papadum y la tarta", meta: 150000 },
+            { title: "Twisted Cryptids", creator: "Ramy Badie", image: "/image/proyectosD/twisted.jpg", funded: 18, category: "Juegos", descripcion: "Descripción de Twisted Cryptids", meta: 120000 },
+            { title: "Lymow One", creator: "Lymow Tech", image: "/image/proyectosD/robot.jpg", funded: 15, category: "Tecnología", descripcion: "Descripción de Lymow One", meta: 25000 }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -114,9 +114,9 @@
                 document.getElementById('image').alt = project.title || project.titulo;
                 document.getElementById('creator').textContent = project.creator;
                 document.getElementById('category').textContent = project.category;
-                document.getElementById('meta').textContent = (project.precio || project.meta || 10000).toFixed(2);
-                const financiado = ((project.precio || project.meta || 10000) * project.funded / 100).toFixed(2);
-                document.getElementById('financiado').textContent = financiado;
+                document.getElementById('meta').textContent = new Intl.NumberFormat('es-CL').format(project.meta || 10000); // Formatear meta
+                const financiado = ((project.meta || 10000) * project.funded / 100).toFixed(2);
+                document.getElementById('financiado').textContent = new Intl.NumberFormat('es-CL').format(financiado); // Formatear financiado
                 document.getElementById('porcentaje').textContent = project.funded;
                 document.getElementById('progress').style.width = `${project.funded}%`;
                 document.getElementById('description').textContent = project.descripcion || 'No hay descripción disponible.';
