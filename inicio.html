@@ -45,30 +45,32 @@
 </head>
 <body>
 
-<div class="login-container">
-    <h2>Iniciar Sesión</h2>
-    <input type="text" id="nombre" placeholder="Nombre de usuario" required>
-    <input type="password" id="password" placeholder="Contraseña" required>
-    <button id="btn-iniciar-sesion">Iniciar Sesión</button>
-    <div id="mensaje" style="margin-top: 10px; color: red;"></div>
-</div>
-
-<script src="/js/usuarios.js"></script>
-<script>
-    // Manejar el evento de clic en el botón de inicio de sesión
-    document.getElementById('btn-iniciar-sesion').addEventListener('click', () => {
-        const nombre = document.getElementById('nombre').value;
-        const password = document.getElementById('password').value;
-        const usuarioLogueado = iniciarSesion(nombre, password);
-
-        if (usuarioLogueado) {
-            // Redirigir a prueba.html si el inicio de sesión es exitoso
-            window.location.href = 'prueba.html';
-        } else {
-            document.getElementById('mensaje').textContent = "Nombre de usuario o contraseña incorrectos.";
-        }
-    });
-</script>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+            <input type="text" id="nombre" placeholder="Nombre de usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <p>¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a></p>
+        <div id="mensaje" style="margin-top: 10px; color: red;"></div>
+    </div>
+    
+    <script src="/js/usuarios.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const password = document.getElementById('password').value;
+            const usuarioLogueado = iniciarSesion(nombre, password);
+    
+            if (usuarioLogueado) {
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('mensaje').textContent = "Nombre de usuario o contraseña incorrectos.";
+            }
+        });
+    </script>
 
 </body>
 </html>

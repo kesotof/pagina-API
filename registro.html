@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+        .registro-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .mensaje {
+            margin-top: 10px;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<div class="registro-container">
+    <h2>Registro de Usuario</h2>
+    <form id="registro-form">
+        <input type="text" id="nombre" placeholder="Nombre de usuario" required>
+        <input type="email" id="correo" placeholder="Correo electrónico" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <select id="rol" required>
+            <option value="">Selecciona un rol</option>
+            <option value="Donador">Donador</option>
+            <option value="Creador">Creador</option>
+        </select>
+        <button type="submit">Registrarse</button>
+    </form>
+    <div id="mensaje" class="mensaje"></div>
+    <p>¿Ya tienes una cuenta? <a href="inicio.html">Inicia sesión</a></p>
+</div>
+
+<script src="/js/usuarios.js"></script>
+<script>
+    document.getElementById('registro-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const nombre = document.getElementById('nombre').value;
+        const correo = document.getElementById('correo').value;
+        const password = document.getElementById('password').value;
+        const rol = document.getElementById('rol').value;
+
+        if (registrarUsuario(nombre, correo, password, rol)) {
+            document.getElementById('mensaje').textContent = "Usuario registrado con éxito. Redirigiendo...";
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 2000);
+        } else {
+            document.getElementById('mensaje').textContent = "Error al registrar el usuario.";
+        }
+    });
+</script>
+
+</body>
+</html>
