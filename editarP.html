@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="css/actualizarU.css">
+</head>
+<body>
+    <header>
+        <!-- Aquí puedes incluir tu barra de navegación -->
+    </header>
+
+    <main class="container">
+        <h1 class="title">Editar Perfil</h1>
+        <form id="editProfileForm" class="form">
+            <div class="form-group">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="imagenPerfil" class="form-label">Imagen de Perfil:</label>
+                <input type="file" id="imagenPerfil" name="imagenPerfil" accept="image/*" class="form-input">
+                <img id="previewImagen" src="#" alt="Vista previa de la imagen" class="profile-preview">
+            </div>
+            <div class="form-group">
+                <label for="passwordActual" class="form-label">Contraseña Actual:</label>
+                <input type="password" id="passwordActual" name="passwordActual" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="nuevaPassword" class="form-label">Nueva Contraseña:</label>
+                <input type="password" id="nuevaPassword" name="nuevaPassword" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="confirmarPassword" class="form-label">Confirmar Nueva Contraseña:</label>
+                <input type="password" id="confirmarPassword" name="confirmarPassword" class="form-input">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </main>
+
+    <script src="js/actualizarU.js"></script>
+</body>
+</html>

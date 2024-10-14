@@ -18,12 +18,16 @@
         </nav>
         <input type="search" placeholder="Buscar campañas" class="search-bar" id="searchBar">
         <div class="user-actions">
-            <a href="" id="loginLink">Login / Sign up</a>
+            <div class="user-info">
+                <img id="userImage" style="display: none; width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;" alt="User Profile">
+                <a href="" id="loginLink">Login / Sign up</a>
+            </div>
             <div id="popover" class="popover" style="display:none;">
                 <p>Perfil de Usuario</p>
-                <button id="cerrarSesionBtn">Cerrar Sesión</button>
                 <button id="editarPerfilBtn">Editar Perfil</button>
-                <button id="configuracionBtn">Configuración</button>
+                <button id="verCampanasBtn" style="display:none;">Ver Campañas</button>
+                <button id="verHistorialBtn" style="display:none;">Ver Historial</button>
+                <button id="cerrarSesionBtn">Cerrar Sesión</button>
             </div>
             <a href="prueba.html"><button class="btn" id="campaignBtn">INICIAR CAMPAÑA</button></a>
         </div>
