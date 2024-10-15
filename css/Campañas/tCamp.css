@@ -5,9 +5,65 @@ body {
     padding: 20px;
     background-color: #f4f4f4;
 }
+
+/* Ajustes del header */
+header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 50px;
+    margin-right: 300px;
+}
+
+header .logo a	{
+    color: white;
+    text-decoration: none;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header .user-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-left: 1000px;
+}
+
+header .user-info a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header .user-info a:hover {
+    text-decoration: underline;
+}
+
 .container {
     max-width: 800px;
-    margin: auto;
+    margin: 100px auto 0 auto;
     background: white;
     padding: 20px;
     border-radius: 5px;
