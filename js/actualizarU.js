@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar el envío del formulario
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-        
+
         const passwordActual = document.getElementById('passwordActual').value;
         const nuevaPassword = document.getElementById('nuevaPassword').value;
         const confirmarPassword = document.getElementById('confirmarPassword').value;
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function actualizarPerfil(event) {
         event.preventDefault();
-        
+    
         const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
         const nombreInput = document.getElementById('nombre');
         const imagenInput = document.getElementById('imagenPerfil');

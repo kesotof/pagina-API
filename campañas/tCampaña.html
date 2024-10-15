@@ -4,60 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la Campaña</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
-        .stats {
-            background-color: #e9e9e9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .description {
-            margin-bottom: 20px;
-        }
-        #debug-info {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            white-space: pre-wrap;
-            font-family: monospace;
-        }
-        .progress-bar {
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            padding: 3px;
-            margin-top: 10px;
-        }
-        .progress {
-            background-color: #4CAF50;
-            height: 20px;
-            border-radius: 5px;
-            width: 0%;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/Campañas/tCamp.css">
 </head>
 <body>
     <div class="container">
@@ -72,8 +19,10 @@
                 <div class="progress" id="progress"></div>
             </div>
         </div>
+        <div class="description" id="description"></div>
+        <button class="donate-button" onclick="irACarrito()">Donar a esta campaña</button>
     </div>
-
+    
     <script>
         const proyectosIniciales = [
             { title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60, category: "Tecnología", descripcion: "Descripción de NitroPress", meta: 100000 }, // Ejemplo de meta
@@ -102,8 +51,9 @@
         });
 
         async function loadProjectDetails(projectId, debugInfo) {
-            const campaigns = await getAllCampaigns();
-            const project = campaigns.find(c => c.title === decodeURIComponent(projectId) || c.titulo === decodeURIComponent(projectId));
+            const { proyectosIniciales, jsonCampaigns, localCampaigns } = await getAllCampaigns();
+            const allCampaigns = [...proyectosIniciales, ...jsonCampaigns, ...localCampaigns];
+            const project = allCampaigns.find(c => c.title === decodeURIComponent(projectId) || c.titulo === decodeURIComponent(projectId));
 
             debugInfo += `Proyecto buscado: ${decodeURIComponent(projectId)}\n`;
             debugInfo += `Proyecto encontrado: ${JSON.stringify(project, null, 2)}\n`;
@@ -114,11 +64,12 @@
                 document.getElementById('image').alt = project.title || project.titulo;
                 document.getElementById('creator').textContent = project.creator;
                 document.getElementById('category').textContent = project.category;
-                document.getElementById('meta').textContent = new Intl.NumberFormat('es-CL').format(project.meta || 10000); // Formatear meta
-                const financiado = ((project.meta || 10000) * project.funded / 100).toFixed(2);
-                document.getElementById('financiado').textContent = new Intl.NumberFormat('es-CL').format(financiado); // Formatear financiado
-                document.getElementById('porcentaje').textContent = project.funded;
-                document.getElementById('progress').style.width = `${project.funded}%`;
+                document.getElementById('meta').textContent = new Intl.NumberFormat('es-CL').format(project.meta || 10000);
+                const financiado = parseFloat(project.funded) || 0;
+                document.getElementById('financiado').textContent = new Intl.NumberFormat('es-CL').format(financiado);
+                const porcentaje = ((financiado / (project.meta || 10000)) * 100).toFixed(2);
+                document.getElementById('porcentaje').textContent = porcentaje;
+                document.getElementById('progress').style.width = `${porcentaje}%`;
                 document.getElementById('description').textContent = project.descripcion || 'No hay descripción disponible.';
             } else {
                 document.body.innerHTML = '<h1>Error: Proyecto no encontrado</h1>';
@@ -128,10 +79,12 @@
         }
 
         async function getAllCampaigns() {
+            const proyectosInicialesActualizados = JSON.parse(localStorage.getItem('proyectosIniciales')) || proyectosIniciales;
             const jsonCampaigns = await cargarCampanasJSON();
+            const proyectosJSONActualizados = JSON.parse(localStorage.getItem('proyectosJSON')) || jsonCampaigns;
             const localCampaigns = JSON.parse(localStorage.getItem('campañas')) || [];
 
-            return [...proyectosIniciales, ...jsonCampaigns, ...localCampaigns];
+            return { proyectosIniciales: proyectosInicialesActualizados, jsonCampaigns: proyectosJSONActualizados, localCampaigns };
         }
 
         async function cargarCampanasJSON() {
@@ -145,6 +98,11 @@
                 console.error("Error al cargar las campañas:", error);
                 return [];
             }
+        }
+
+        function irACarrito() {
+            const projectId = new URLSearchParams(window.location.search).get('id');
+            window.location.href = `/Donar/carrito.html?id=${encodeURIComponent(projectId)}`;
         }
 
         // Función para mostrar todo el contenido de localStorage

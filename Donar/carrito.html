@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Donación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, select {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Donar a: <span id="campaignTitle"></span></h1>
+        <form id="donationForm">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="amount">Monto a donar (CLP):</label>
+            <input type="number" id="amount" min="1" required>
+
+            <label for="paymentMethod">Método de pago:</label>
+            <select id="paymentMethod" required>
+                <option value="creditCard">Tarjeta de Crédito</option>
+                <option value="debitCard">Tarjeta de Débito</option>
+                <option value="transfer">Transferencia Bancaria</option>
+            </select>
+
+            <button type="submit">Confirmar Donación</button>
+        </form>
+    </div>
+
+    <script src="/js/donar/carrito.js"></script>
+</body>
+</html>

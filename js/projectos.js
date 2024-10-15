@@ -124,3 +124,4 @@ function mostrarLocalStorage() {
 
 // Llamar a la función para mostrar localStorage al cargar la página
 mostrarLocalStorage();
+
