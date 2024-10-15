@@ -67,7 +67,7 @@ async function renderProyectos() {
                         <div class="projecto-creator">${proyecto.creator}</div>
                         <div class="projecto-title">${proyecto.title || proyecto.titulo}</div>
                         <div class="projecto-stats">
-                            <span>${proyecto.funded}% Financiado</span>
+                            <span>Activo</span>
                         </div>
                     </div>
                 </a>
@@ -124,4 +124,3 @@ function mostrarLocalStorage() {
 
 // Llamar a la función para mostrar localStorage al cargar la página
 mostrarLocalStorage();
-

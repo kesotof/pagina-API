@@ -71,7 +71,7 @@ async function filtrarProyectos(categoria) {
                     <div class="producto-detalles">
                         <div class="producto-titulo">${proyecto.title || proyecto.titulo}</div>
                         <div class="producto-creator">${proyecto.creator}</div>
-                        <div class="producto-financiado">${proyecto.funded}% Financiado</div>
+                        <div class="producto-financiado">Activo</div>
                     </div>
                 </a>
             </div>
