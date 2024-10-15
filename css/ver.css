@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f0f0;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+#campanas-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.campana {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    width: 300px;
+}
+.campana img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.campana h2 {
+    margin-top: 10px;
+    color: #333;
+}
+.campana p {
+    color: #666;
+}
+.progress-bar {
+    background-color: #e0e0e0;
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.progress {
+    background-color: #4CAF50;
+    height: 100%;
+    border-radius: 5px;
+    width: 0;
+}
+.nav-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+.nav-buttons a {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.campana-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.campana-buttons button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.campana-buttons button:hover {
+    background-color: #45a049;
+}

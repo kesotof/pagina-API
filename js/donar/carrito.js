@@ -159,9 +159,18 @@ function mostrarLocalStorage() {
 // Llamar a la función para mostrar localStorage al cargar la página
 document.addEventListener('DOMContentLoaded', mostrarLocalStorage);
 
-
 // Función para guardar la donación en el historial del usuario
-function guardarDonacionEnHistorial(userId, donacion) {
+function guardarDonacionEnHistorial(userId, monto, proyecto, metodoPago, nombreDonante) {
+    const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
+
+    const donacion = {
+        fecha: new Date().toISOString(),
+        proyecto: proyecto,
+        monto: monto,
+        metodoPago: metodoPago,
+        nombreDonante: nombreDonante, // Aquí debe capturarse correctamente
+    };
+
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     let usuario = usuarios.find(u => u.id === userId);
     
@@ -171,11 +180,9 @@ function guardarDonacionEnHistorial(userId, donacion) {
         }
         usuario.historialDonaciones.push(donacion);
         
-        // Actualizar el usuario en el array
         let index = usuarios.findIndex(u => u.id === userId);
         usuarios[index] = usuario;
         
-        // Guardar el array actualizado en localStorage
         localStorage.setItem('usuarios', JSON.stringify(usuarios));
     }
 }
@@ -183,7 +190,7 @@ function guardarDonacionEnHistorial(userId, donacion) {
 // Función modificada para procesar la donación
 function procesarDonacion(event) {
     event.preventDefault();
-    const nombre = document.getElementById('name').value;
+    const nombre = document.getElementById('name').value; // Asegúrate de que este ID sea correcto
     const email = document.getElementById('email').value;
     const monto = parseFloat(document.getElementById('amount').value);
     const metodoPago = document.getElementById('paymentMethod').value;
@@ -193,13 +200,10 @@ function procesarDonacion(event) {
         return;
     }
 
-    console.log(`Donación de ${monto} CLP recibida de ${nombre} (${email}) mediante ${metodoPago}`);
-
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
     actualizarCampaña(projectId, monto);
 
-    // Obtener el usuario actual
     const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
     if (usuarioActual) {
         const donacion = {
@@ -208,10 +212,9 @@ function procesarDonacion(event) {
             proyecto: projectId,
             metodoPago: metodoPago
         };
-        guardarDonacionEnHistorial(usuarioActual.id, donacion);
+        guardarDonacionEnHistorial(usuarioActual.id, monto, projectId, metodoPago, nombre); // Asegúrate de que el nombre se esté pasando aquí
     }
 
     alert('¡Gracias por tu donación!');
     window.location.href = `/index.html?id=${encodeURIComponent(projectId)}`;
 }
-

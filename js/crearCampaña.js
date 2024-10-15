@@ -56,7 +56,6 @@ function crearCampana(event) {
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById("campana-form");
     form.addEventListener("submit", crearCampana);
-    
     console.log("Event listener agregado al formulario");
     console.log("Contenido actual de localStorage:", localStorage.getItem("campañas"));
 });

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Campaña</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/modificarC.css">
+</head>
+<body>
+    <div class="wrapper">
+        <aside>
+            <header>
+                <a href="/index.html" style="text-decoration: none;">
+                    <h1 class="logo">API</h1>
+                </a>
+            </header>
+            <nav>
+                <h2>Editar Campaña</h2>
+                <ul class="menu">
+                    <li>
+                        <button id="btnNombre" class="boton-menu boton-categoria active">Nombre</button>
+                    </li>
+                    <li>
+                        <button id="btnDescripcion" class="boton-menu boton-categoria">Descripción</button>
+                    </li>
+                    <li>
+                        <button id="btnMeta" class="boton-menu boton-categoria">Meta</button>
+                    </li>
+                    <li>
+                        <button id="btnHistorial" class="boton-menu boton-categoria">Historial donaciones</button>
+                    </li>
+                    <li>
+                        <button id="btnTerminar" class="boton-menu boton-categoria">Terminar campaña</button>
+                    </li>
+                    <li>
+                        <button id="btnEliminar" class="boton-menu boton-categoria">Eliminar campaña</button>
+                    </li>
+                </ul>
+            </nav>
+            <footer>
+                <p class="texto-footer">© 2022 Apoyando Proyectos Innovadores</p>
+            </footer>
+        </aside>
+        <main>
+            <div id="seccionNombre" class="seccion">
+                <h3>Editar Nombre</h3>
+                <form id="formNombre">
+                    <input type="text" id="nuevoNombre" placeholder="Nuevo Nombre" required>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+
+            <div id="seccionDescripcion" class="seccion" style="display: none;">
+                <h3>Editar Descripción</h3>
+                <form id="formDescripcion">
+                    <textarea id="nuevaDescripcion" placeholder="Nueva Descripción" required></textarea>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+
+            <div id="seccionMeta" class="seccion" style="display: none;">
+                <h3>Editar Meta</h3>
+                <form id="formMeta">
+                    <input type="number" id="nuevaMeta" placeholder="Nueva Meta" required>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+
+            <div id="seccionHistorial" class="seccion" style="display: none;">
+                <h3>Historial de Donaciones</h3>
+                <div id="historialDonaciones"></div>
+            </div>
+
+            <div id="seccionTerminar" class="seccion" style="display: none;">
+                <h3>Terminar Campaña</h3>
+                <form id="formTerminar">
+                    <p>¿Estás seguro de que quieres terminar esta campaña?</p>
+                    <button type="submit">Terminar Campaña</button>
+                </form>
+            </div>
+
+            <div id="seccionEliminar" class="seccion" style="display: none;">
+                <h3>Eliminar Campaña</h3>
+                <form id="formEliminar">
+                    <p>¿Estás seguro de que quieres eliminar esta campaña? Esta acción no se puede deshacer.</p>
+                    <button type="submit">Eliminar Campaña</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="js/modificarC.js"></script>
+</body>
+</html>

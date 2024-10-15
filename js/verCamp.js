@@ -1,17 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Página de visualización cargada");
-    mostrarCampanas();
-    mostrarLocalStorage(); // Para depuración
-});
-
+// Función para mostrar todas las campañas
 function mostrarCampanas() {
     const campanasContainer = document.getElementById('campanas-container');
     let campanas = [];
-    
+
     try {
         const campanasString = localStorage.getItem('campañas');
         console.log("Campañas string recuperado del localStorage:", campanasString);
-        
+
         if (campanasString) {
             campanas = JSON.parse(campanasString);
         } else {
@@ -20,43 +15,43 @@ function mostrarCampanas() {
     } catch (error) {
         console.error("Error al parsear campañas:", error);
     }
-    
+
     console.log("Campañas recuperadas del localStorage:", campanas);
-    
+
+    campanasContainer.innerHTML = '';
+
     if (!Array.isArray(campanas) || campanas.length === 0) {
         console.log("No hay campañas para mostrar");
         campanasContainer.innerHTML = '<p>No hay campañas creadas aún.</p>';
         return;
     }
-    
-    campanasContainer.innerHTML = '';
-    campanas.forEach(campana => {
-        console.log("Renderizando campaña:", campana);
+
+    campanas.forEach((campana, index) => {
         const campanaElement = document.createElement('div');
         campanaElement.className = 'campana';
         campanaElement.innerHTML = `
+            <img src="${campana.image}" alt="${campana.title}">
             <h2>${campana.title}</h2>
             <p>Creador: ${campana.creator}</p>
             <p>Categoría: ${campana.category}</p>
             <p>Descripción: ${campana.descripcion}</p>
-            <p>Meta: $${campana.precio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
-            <p>Financiado: $${(campana.precio * campana.funded / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} (${campana.funded}%)</p>
+            <p>Meta: $${campana.meta.toLocaleString()}</p>
+            <p>Financiado: $${campana.funded.toLocaleString()} (${((campana.funded / campana.meta) * 100).toFixed(2)}%)</p>
             <div class="progress-bar">
-                <div class="progress" style="width: ${campana.funded}%"></div>
+                <div class="progress" style="width: ${(campana.funded / campana.meta) * 100}%"></div>
+            </div>
+            <div class="campana-buttons">
+                <button onclick="modificarCampana(${index})">Modificar</button>
             </div>
         `;
         campanasContainer.appendChild(campanaElement);
     });
-    console.log("Todas las campañas han sido renderizadas");
 }
 
-function mostrarLocalStorage() {
-    console.log("Contenido completo de localStorage:");
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        console.log(key, ":", localStorage.getItem(key));
-    }
+function modificarCampana(index) {
+    // Redirigir a una nueva página para modificar la campaña
+    window.location.href = `modificarC.html?id=${index}`;
 }
 
-// Llamar a la función al cargar la página
-mostrarLocalStorage();
+
+mostrarCampanas();
