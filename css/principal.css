@@ -487,8 +487,7 @@ nav ul li a {
     content: '';
     display: inline-block;
     width: 12px;
-    height: 12px;
-    background-color: #a3e635;
+    height: 12px;;
     border-radius: 50%;
     margin-right: 5px;
 }
@@ -606,4 +605,34 @@ footer {
     color: #666;
     cursor: pointer;
     transition: color 0.3s;
+}
+
+.projecto {
+    transition: background-color 0.3s ease;
+}
+.projecto.activo {
+    background-color: #e6f7ff;
+}
+.projecto.terminado {
+    background-color: #f0f0f0;
+}
+.projecto.inactivo {
+    background-color: #fff1f0;
+}
+.projecto-stats span {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+.projecto.activo .projecto-stats span {
+    background-color: #1890ff;
+    color: white;
+}
+.projecto.terminado .projecto-stats span {
+    background-color: #ff4d4f;
+    color: white;
+}
+.projecto.inactivo .projecto-stats span {
+    background-color: orange;
+    color: white;
 }

@@ -1,13 +1,13 @@
 // Lista de proyectos iniciales
 const proyectosIniciales = [
-    { title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60, category: "Tecnología", descripcion: "Descripción de NitroPress" },
-    { title: "Rayman® The Board Game", creator: "Flyos Games", image: "/image/proyectosD/rayman.jpg", funded: 43, category: "Juegos", descripcion: "Descripción de Rayman" },
-    { title: "Lezo", creator: "lezocomic", image: "/image/proyectosD/lezo.jpg", funded: 33, category: "Cómics & manga", descripcion: "Descripción de Lezo" },
-    { title: "Solar Card", creator: "Solarballs", image: "/image/proyectosD/solar.jpg", funded: 27, category: "Tecnología", descripcion: "Descripción de Solar Card" },
-    { title: "Disk Plus", creator: "Sharge Tech", image: "/image/proyectosD/disk.jpg", funded: 24, category: "Tecnología", descripcion: "Descripción de Disk Plus" },
-    { title: "Papadum y la tarta", creator: "Mike Bonales", image: "/image/proyectosD/papadum.jpg", funded: 21, category: "Cómics & manga", descripcion: "Descripción de Papadum y la tarta" },
-    { title: "Twisted Cryptids", creator: "Ramy Badie", image: "/image/proyectosD/twisted.jpg", funded: 18, category: "Juegos", descripcion: "Descripción de Twisted Cryptids" },
-    { title: "Lymow One", creator: "Lymow Tech", image: "/image/proyectosD/robot.jpg", funded: 15, category: "Tecnología", descripcion: "Descripción de Lymow One" }
+    { title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60000, goal: 0, category: "Tecnología", descripcion: "Descripción de NitroPress" },
+    { title: "Rayman® The Board Game", creator: "Flyos Games", image: "/image/proyectosD/rayman.jpg", funded: 43000, goal: 0, category: "Juegos", descripcion: "Descripción de Rayman" },
+    { title: "Lezo", creator: "lezocomic", image: "/image/proyectosD/lezo.jpg", funded: 33000, goal: 50000, category: "Cómics & manga", descripcion: "Descripción de Lezo" },
+    { title: "Solar Card", creator: "Solarballs", image: "/image/proyectosD/solar.jpg", funded: 27000, goal: 0, category: "Tecnología", descripcion: "Descripción de Solar Card" },
+    { title: "Disk Plus", creator: "Sharge Tech", image: "/image/proyectosD/disk.jpg", funded: 24000, goal: 0, category: "Tecnología", descripcion: "Descripción de Disk Plus" },
+    { title: "Papadum y la tarta", creator: "Mike Bonales", image: "/image/proyectosD/papadum.jpg", funded: 21000, goal: 0, category: "Cómics & manga", descripcion: "Descripción de Papadum y la tarta" },
+    { title: "Twisted Cryptids", creator: "Ramy Badie", image: "/image/proyectosD/twisted.jpg", funded: 18000, goal: 0, category: "Juegos", descripcion: "Descripción de Twisted Cryptids" },
+    { title: "Lymow One", creator: "Lymow Tech", image: "/image/proyectosD/robot.jpg", funded: 15000, goal: 0, category: "Tecnología", descripcion: "Descripción de Lymow One" }
 ];
 
 // Variables globales
@@ -59,15 +59,27 @@ async function renderProyectos() {
     visibleProyectos.forEach(proyecto => {
         const redirectUrl = `/campañas/tCampaña.html?id=${encodeURIComponent(proyecto.title || proyecto.titulo)}`;
 
+        // Verifica el valor de funded y goal
+        console.log(`Proyecto: ${proyecto.title}, Funded: ${proyecto.funded}, Goal: ${proyecto.goal}`);
+
+        // Lógica para determinar el estado del proyecto
+        let estado;
+        if (proyecto.terminada) {
+            estado = "Terminado";
+        } else {
+            const porcentajeFinanciado = (proyecto.funded / proyecto.goal) * 100;
+            estado = porcentajeFinanciado >= 50 ? "Activo" : "Inactivo";
+        }
+
         container.innerHTML += `
-            <div class="projecto">
+            <div class="projecto ${estado.toLowerCase()}">
                 <a href="${redirectUrl}" style="text-decoration: none;color:black">
                     <img src="${proyecto.image || proyecto.imagen}" alt="${proyecto.title || proyecto.titulo}">
                     <div class="projecto-info">
                         <div class="projecto-creator">${proyecto.creator}</div>
                         <div class="projecto-title">${proyecto.title || proyecto.titulo}</div>
                         <div class="projecto-stats">
-                            <span>Activo</span>
+                            <span>${estado}</span>
                         </div>
                     </div>
                 </a>

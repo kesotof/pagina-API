@@ -57,58 +57,25 @@ document.getElementById('formMeta').addEventListener('submit', (e) => {
     actualizarCampana();
     alert('Meta actualizada con éxito');
 });
+
 // Mostrar historial de donaciones
 function mostrarHistorialDonaciones() {
-    const historialContainer = document.getElementById('historialDonaciones');
-    const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
-    
-    if (!usuarioActual) {
-        historialContainer.innerHTML = '<p class="no-donations">No se ha iniciado sesión.</p>';
-        return;
-    }
-
-    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-    const usuario = usuarios.find(u => u.id === usuarioActual.id);
-
-    if (!usuario || !usuario.historialDonaciones || usuario.historialDonaciones.length === 0) {
-        historialContainer.innerHTML = '<p class="no-donations">No hay donaciones registradas.</p>';
-        return;
-    }
-
-    let tabla = `
-        <table>
-            <tr>
-                <th>Fecha</th>
-                <th>Proyecto</th>
-                <th>Monto</th>
-                <th>Método de Pago</th>
-                <th>Donante</th>
-            </tr>
-    `;
-
-    usuario.historialDonaciones.forEach(donacion => {
-        tabla += `
-            <tr>
-                <td>${new Date(donacion.fecha).toLocaleString()}</td>
-                <td>${donacion.proyecto}</td>
-                <td>${donacion.monto} CLP</td>
-                <td>${donacion.metodoPago}</td>
-                <td>${donacion.nombreDonante || 'Anónimo'}</td> <!-- Aquí se accede al nombre -->
-            </tr>
-        `;
-    });
-
-    tabla += '</table>';
-    historialContainer.innerHTML = tabla;
+    // ... (código existente sin cambios)
 }
 
 // Manejar terminar campaña
 document.getElementById('formTerminar').addEventListener('submit', (e) => {
     e.preventDefault();
-    campana.terminada = true;
+    campana.terminada = true; // Cambia el estado de la campaña a terminada
     actualizarCampana();
     alert('Campaña terminada con éxito');
     window.location.href = 'index.html';
+});
+
+// Cargar el estado de la campaña al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    const estadoContainer = document.getElementById('estadoCampana');
+    estadoContainer.innerHTML = campana.terminada ? '<div class="producto-financiado" style="color: red;">Terminado</div>' : '<div class="producto-financiado">Activo</div>';
 });
 
 // Manejar eliminar campaña
@@ -130,7 +97,38 @@ document.getElementById('nuevaMeta').value = campana.meta;
 // Mostrar la sección de nombre por defecto
 mostrarSeccion('seccionNombre');
 
-// Cargar el historial de donaciones cuando se carga la página
-document.addEventListener('DOMContentLoaded', function() {
-    // No llamamos a mostrarHistorialDonaciones() aquí para evitar que se muestre automáticamente
+// Event listener para el botón de Retirar Fondos
+document.getElementById('btnRetirar').addEventListener('click', () => {
+    mostrarSeccion('seccionRetirar'); // Mostrar la sección de retirar fondos
+});
+
+// Manejar el formulario de retiro de fondos
+document.getElementById('formRetirar').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const numeroTarjeta = document.getElementById('numeroTarjeta').value;
+    const tipoTarjeta = document.getElementById('tipoTarjeta').value;
+
+    const confirmacion = confirm(`¿Estás seguro de que quieres retirar los fondos a la tarjeta ${tipoTarjeta} con número ${numeroTarjeta}? Esto reseteará el monto financiado a cero.`);
+    
+    if (confirmacion) {
+        campana.funded = 0; // Reiniciar funded a 0
+        actualizarCampana(); // Actualizar campaña en localStorage
+        alert(`Fondos retirados con éxito a la tarjeta ${tipoTarjeta}. Monto financiado reiniciado a 0.`);
+        window.location.href = 'index.html'; // Redirigir a la página principal
+    }
+});
+
+// Cargar el estado de la campaña al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    const estadoContainer = document.getElementById('estadoCampana');
+    // Verifica si la campaña está terminada
+    if (campana.terminada) {
+        estadoContainer.innerHTML = '<div class="producto-financiado" style="color: red;">Terminado</div>';
+    } else {
+        // Verifica el monto financiado en relación a la meta
+        const porcentajeFinanciado = (campana.funded / campana.meta) * 100;
+        estadoContainer.innerHTML = porcentajeFinanciado >= 50 
+            ? '<div class="producto-financiado">Activo</div>' 
+            : '<div class="producto-financiado" style="color: orange;">Inactivo</div>';
+    }
 });

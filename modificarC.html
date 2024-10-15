@@ -36,6 +36,9 @@
                     <li>
                         <button id="btnEliminar" class="boton-menu boton-categoria">Eliminar campaña</button>
                     </li>
+                    <li>
+                        <button id="btnRetirar" class="boton-menu boton-categoria">Retirar Fondos</button>
+                    </li>
                 </ul>
             </nav>
             <footer>
@@ -85,6 +88,22 @@
                 <form id="formEliminar">
                     <p>¿Estás seguro de que quieres eliminar esta campaña? Esta acción no se puede deshacer.</p>
                     <button type="submit">Eliminar Campaña</button>
+                </form>
+            </div>
+            <div id="seccionRetirar" class="seccion" style="display: none;">
+                <h3>Retirar Fondos</h3>
+                <form id="formRetirar">
+                    <label for="numeroTarjeta">Número de Tarjeta:</label>
+                    <input type="text" id="numeroTarjeta" required placeholder="Ingrese el número de tarjeta" />
+            
+                    <label for="tipoTarjeta">Tipo de Tarjeta:</label>
+                    <select id="tipoTarjeta" required>
+                        <option value="" disabled selected>Seleccione tipo de tarjeta</option>
+                        <option value="credito">Crédito</option>
+                        <option value="debito">Débito</option>
+                    </select>
+                    <p>¿Estás seguro de que quieres retirar todos los fondos de esta campaña?</p>
+                    <button type="submit">Retirar Fondos</button>
                 </form>
             </div>
         </main>

@@ -1,12 +1,12 @@
 const proyectosIniciales = [
-    { redirect: "/campañas/nitroPreess.html", title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60, category: "Tecnología" },
-    { redirect: "", title: "Rayman® The Board Game", creator: "Flyos Games", image: "/image/proyectosD/rayman.jpg", funded: 43, category: "Juegos" },
-    { redirect: "", title: "Lezo", creator: "lezocomic", image: "/image/proyectosD/lezo.jpg", funded: 33, category: "Cómics & manga" },
-    { redirect: "", title: "Solar Card", creator: "Solarballs", image: "/image/proyectosD/solar.jpg", funded: 27, category: "Tecnología" },
-    { redirect: "", title: "Disk Plus", creator: "Sharge Tech", image: "/image/proyectosD/disk.jpg", funded: 24, category: "Tecnología" },
-    { redirect: "", title: "Papadum y la tarta", creator: "Mike Bonales", image: "/image/proyectosD/papadum.jpg", funded: 21, category: "Cómics & manga" },
-    { redirect: "", title: "Twisted Cryptids", creator: "Ramy Badie", image: "/image/proyectosD/twisted.jpg", funded: 18, category: "Juegos" },
-    { redirect: "", title: "Lymow One", creator: "Lymow Tech", image: "/image/proyectosD/robot.jpg", funded: 15, category: "Tecnología" }
+    { redirect: "/campañas/nitroPreess.html", title: "Máquinas NitroPress", creator: "NitroPress®", image: "/image/proyectosD/nitro.jpg", funded: 60, category: "Tecnología", goal: 10 },
+    { redirect: "", title: "Rayman® The Board Game", creator: "Flyos Games", image: "/image/proyectosD/rayman.jpg", funded: 43, category: "Juegos", goal: 10 },
+    { redirect: "", title: "Lezo", creator: "lezocomic", image: "/image/proyectosD/lezo.jpg", funded: 33, category: "Cómics & manga", goal: 10 },
+    { redirect: "", title: "Solar Card", creator: "Solarballs", image: "/image/proyectosD/solar.jpg", funded: 27, category: "Tecnología", goal: 10 },
+    { redirect: "", title: "Disk Plus", creator: "Sharge Tech", image: "/image/proyectosD/disk.jpg", funded: 24, category: "Tecnología", goal: 10 },
+    { redirect: "", title: "Papadum y la tarta", creator: "Mike Bonales", image: "/image/proyectosD/papadum.jpg", funded: 21, category: "Cómics & manga", goal: 10 },
+    { redirect: "", title: "Twisted Cryptids", creator: "Ramy Badie", image: "/image/proyectosD/twisted.jpg", funded: 18, category: "Juegos", goal: 10 },
+    { redirect: "", title: "Lymow One", creator: "Lymow Tech", image: "/image/proyectosD/robot.jpg", funded: 15, category: "Tecnología", goal: 10 }
 ];
 
 let currentCategory = "Todos";
@@ -56,12 +56,38 @@ async function filtrarProyectos(categoria) {
 
     proyectosFiltrados.forEach(proyecto => {
         let redirectUrl;
-        
+
         // Excepción para el proyecto NitroPress
         if (proyecto.title === "Máquinas NitroPress" && proyecto.redirect) {
             redirectUrl = proyecto.redirect;
         } else {
             redirectUrl = `/campañas/tCampaña.html?id=${encodeURIComponent(proyecto.title || proyecto.titulo)}`;
+        }
+
+        // Verifica el valor de funded y goal
+        console.log(`Proyecto: ${proyecto.title}, Funded: ${proyecto.funded}, Goal: ${proyecto.goal}`);
+
+        // Lógica para determinar el estado del proyecto
+        let estado;
+        if (proyecto.terminada) {
+            estado = "Terminado";
+        } else {
+            const porcentajeFinanciado = (proyecto.funded / proyecto.goal) * 100;
+            estado = porcentajeFinanciado >= 50 ? "Activo" : "Inactivo";
+        }
+
+        // Determinar el color del estado
+        let colorEstado;
+        switch (estado) {
+            case "Terminado":
+                colorEstado = "red";
+                break;
+            case "Activo":
+                colorEstado = "green";
+                break;
+            case "Inactivo":
+                colorEstado = "green";
+                break;
         }
 
         contenedor.innerHTML += `
@@ -71,7 +97,7 @@ async function filtrarProyectos(categoria) {
                     <div class="producto-detalles">
                         <div class="producto-titulo">${proyecto.title || proyecto.titulo}</div>
                         <div class="producto-creator">${proyecto.creator}</div>
-                        <div class="producto-financiado">Activo</div>
+                        <div class="producto-financiado" style="color: ${colorEstado};">${estado}</div>
                     </div>
                 </a>
             </div>
