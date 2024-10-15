@@ -214,3 +214,4 @@ function procesarDonacion(event) {
     alert('¡Gracias por tu donación!');
     window.location.href = `/index.html?id=${encodeURIComponent(projectId)}`;
 }
+

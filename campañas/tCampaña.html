@@ -21,6 +21,13 @@
         </div>
         <div class="description" id="description"></div>
         <button class="donate-button" onclick="irACarrito()">Donar a esta campaña</button>
+        <div class="comments-section">
+            <h2>Comentarios</h2>
+            <div id="comments-list"></div>
+            <div id="comment-form-container">
+                <!-- El formulario de comentarios se cargará aquí dinámicamente -->
+            </div>
+        </div>
     </div>
     
     <script>
@@ -50,6 +57,89 @@
             }
         });
 
+        // Función para iniciar sesión (proporcionada por el usuario)
+        function iniciarSesion(nombre, password) {
+            const usuarios = JSON.parse(localStorage.getItem("usuarios"));
+            const usuario = usuarios.find(user => user.nombre === nombre && user.password === password);
+
+            if (usuario) {
+                localStorage.setItem("usuario-sesion", JSON.stringify(usuario));
+                console.log("Inicio de sesión exitoso");
+                return true;
+            } else {
+                console.log("Nombre de usuario o contraseña incorrectos");
+                return false;
+            }
+        }
+
+        // Función para verificar si el usuario ha iniciado sesión
+        function usuarioHaIniciadoSesion() {
+            return localStorage.getItem("usuario-sesion") !== null;
+        }
+
+        // Función para obtener el nombre del usuario actual
+        function obtenerNombreUsuario() {
+            const usuarioSesion = JSON.parse(localStorage.getItem("usuario-sesion"));
+            return usuarioSesion ? usuarioSesion.nombre : null;
+        }
+
+        // Funciones actualizadas para manejar comentarios
+        function loadComments() {
+            const projectId = new URLSearchParams(window.location.search).get('id');
+            const comments = JSON.parse(localStorage.getItem(`comments-${projectId}`)) || [];
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = '';
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-header">
+                        <strong>${comment.author}</strong> - ${new Date(comment.timestamp).toLocaleString()}
+                    </div>
+                    <div class="comment-content">${comment.text}</div>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+
+            // Cargar el formulario de comentarios o mensaje de inicio de sesión
+            loadCommentForm();
+        }
+
+        function loadCommentForm() {
+            const commentFormContainer = document.getElementById('comment-form-container');
+            if (usuarioHaIniciadoSesion()) {
+                commentFormContainer.innerHTML = `
+                    <div class="comment-form">
+                        <textarea id="comment-text" placeholder="Escribe tu comentario aquí"></textarea>
+                        <button onclick="addComment()">Enviar comentario</button>
+                    </div>
+                `;
+            } else {
+                commentFormContainer.innerHTML = `
+                    <div class="login-message">
+                        Debes iniciar sesión para poder comentar.
+                    </div>
+                `;
+            }
+        }
+
+        function addComment() {
+            const projectId = new URLSearchParams(window.location.search).get('id');
+            const commentText = document.getElementById('comment-text').value.trim();
+            const commenterName = obtenerNombreUsuario();
+            if (commentText && commenterName) {
+                const comments = JSON.parse(localStorage.getItem(`comments-${projectId}`)) || [];
+                comments.push({
+                    author: commenterName,
+                    text: commentText,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem(`comments-${projectId}`, JSON.stringify(comments));
+                document.getElementById('comment-text').value = '';
+                loadComments();
+            }
+        }
+
         async function loadProjectDetails(projectId, debugInfo) {
             const { proyectosIniciales, jsonCampaigns, localCampaigns } = await getAllCampaigns();
             const allCampaigns = [...proyectosIniciales, ...jsonCampaigns, ...localCampaigns];
@@ -71,6 +161,7 @@
                 document.getElementById('porcentaje').textContent = porcentaje;
                 document.getElementById('progress').style.width = `${porcentaje}%`;
                 document.getElementById('description').textContent = project.descripcion || 'No hay descripción disponible.';
+                loadComments();
             } else {
                 document.body.innerHTML = '<h1>Error: Proyecto no encontrado</h1>';
             }
