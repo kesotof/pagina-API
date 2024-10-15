@@ -158,3 +158,59 @@ function mostrarLocalStorage() {
 
 // Llamar a la función para mostrar localStorage al cargar la página
 document.addEventListener('DOMContentLoaded', mostrarLocalStorage);
+
+
+// Función para guardar la donación en el historial del usuario
+function guardarDonacionEnHistorial(userId, donacion) {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    let usuario = usuarios.find(u => u.id === userId);
+    
+    if (usuario) {
+        if (!usuario.historialDonaciones) {
+            usuario.historialDonaciones = [];
+        }
+        usuario.historialDonaciones.push(donacion);
+        
+        // Actualizar el usuario en el array
+        let index = usuarios.findIndex(u => u.id === userId);
+        usuarios[index] = usuario;
+        
+        // Guardar el array actualizado en localStorage
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    }
+}
+
+// Función modificada para procesar la donación
+function procesarDonacion(event) {
+    event.preventDefault();
+    const nombre = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const monto = parseFloat(document.getElementById('amount').value);
+    const metodoPago = document.getElementById('paymentMethod').value;
+
+    if (isNaN(monto) || monto <= 0) {
+        alert('Por favor, ingrese un monto válido para la donación.');
+        return;
+    }
+
+    console.log(`Donación de ${monto} CLP recibida de ${nombre} (${email}) mediante ${metodoPago}`);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    actualizarCampaña(projectId, monto);
+
+    // Obtener el usuario actual
+    const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
+    if (usuarioActual) {
+        const donacion = {
+            fecha: new Date().toISOString(),
+            monto: monto,
+            proyecto: projectId,
+            metodoPago: metodoPago
+        };
+        guardarDonacionEnHistorial(usuarioActual.id, donacion);
+    }
+
+    alert('¡Gracias por tu donación!');
+    window.location.href = `/index.html?id=${encodeURIComponent(projectId)}`;
+}

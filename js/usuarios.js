@@ -135,10 +135,10 @@ function manejarClicPopover(event) {
             window.location.href = 'editarP.html';
             break;
         case "verCampanasBtn":
-            window.location.href = 'mis_campanas.html';
+            window.location.href = 'ver.html';
             break;
         case "verHistorialBtn":
-            window.location.href = 'historial_donaciones.html';
+            window.location.href = 'donacionesH.html';
             break;
         case "cerrarSesionBtn":
             cerrarSesion();
