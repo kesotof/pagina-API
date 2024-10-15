@@ -1,118 +1,129 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('editProfileForm');
-    const nombreInput = document.getElementById('nombre');
-    const imagenInput = document.getElementById('imagenPerfil');
-    const previewImagen = document.getElementById('previewImagen');
-    
-    // Cargar datos del usuario actual
-    const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
-    if (usuarioActual) {
-        nombreInput.value = usuarioActual.nombre;
-        // Si el usuario tiene una imagen de perfil guardada, mostrarla aquí
-        if (usuarioActual.imagenPerfil) {
-            previewImagen.src = usuarioActual.imagenPerfil;
-            previewImagen.style.display = 'block';
-        }
-    }
+// Obtener el usuario actual de localStorage
+let usuarioActual = JSON.parse(localStorage.getItem('usuarios'));
 
-    // Previsualizar la imagen seleccionada
-    imagenInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImagen.src = e.target.result;
-                previewImagen.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
+// Función para actualizar los datos del usuario en el localStorage
+function actualizarDatosUsuario() {
+    localStorage.setItem('usuarios', JSON.stringify(usuarioActual));
+}
+
+// Función para manejar el clic en los botones del menú
+function manejarClicMenu(event) {
+    const botonId = event.target.id;
+    
+    // Ocultar todas las secciones
+    document.querySelectorAll('.seccion').forEach(seccion => {
+        seccion.style.display = 'none';
     });
 
-    // Manejar el envío del formulario
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+    // Mostrar la sección correspondiente al botón clickeado
+    switch(botonId) {
+        case 'Nombre':
+            document.getElementById('seccionNombre').style.display = 'block';
+            break;
+        case 'telefono':
+            document.getElementById('seccionTelefono').style.display = 'block';
+            break;
+        case 'correo':
+            document.getElementById('seccionCorreo').style.display = 'block';
+            break;
+        case 'Contraseña':
+            document.getElementById('seccionContrasena').style.display = 'block';
+            break;
+        case 'Eliminar cuenta':
+            document.getElementById('seccionEliminar').style.display = 'block';
+            break;
+    }
+}
 
-        const passwordActual = document.getElementById('passwordActual').value;
-        const nuevaPassword = document.getElementById('nuevaPassword').value;
-        const confirmarPassword = document.getElementById('confirmarPassword').value;
+// Función para actualizar el array de usuarios en localStorage
+function actualizarArrayUsuarios() {
+    const usuarios = JSON.parse(localStorage.getItem("usuarios"));
+    const index = usuarios.findIndex(user => user.id === usuarioActual.id);
+    if (index !== -1) {
+        usuarios[index] = usuarioActual; // Reemplaza el usuario modificado
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    }
+}
 
-        // Verificar la contraseña actual
-        if (passwordActual !== usuarioActual.password) {
-            alert('La contraseña actual es incorrecta.');
-            return;
-        }
+// Modificar las funciones de guardar para actualizar el array
+function guardarNombre(event) {
+    event.preventDefault();
+    const nuevoNombre = document.getElementById('nuevoNombre').value;
+    if (nuevoNombre) {
+        usuarioActual.nombre = nuevoNombre;
+        actualizarArrayUsuarios();
+        alert('Nombre actualizado con éxito');
+    } else {
+        alert('Por favor ingresa un nombre válido');
+    }
+}
 
-        // Verificar si las nuevas contraseñas coinciden
-        if (nuevaPassword !== confirmarPassword) {
-            alert('Las nuevas contraseñas no coinciden.');
-            return;
-        }
+function guardarTelefono(event) {
+    event.preventDefault();
+    const nuevoTelefono = document.getElementById('nuevoTelefono').value;
+    usuarioActual.telefono = nuevoTelefono;
+    actualizarArrayUsuarios();
+    alert('Teléfono actualizado con éxito');
+}
 
-        // Actualizar el nombre
-        usuarioActual.nombre = nombreInput.value;
+function guardarCorreo(event) {
+    event.preventDefault();
+    const nuevoCorreo = document.getElementById('nuevoCorreo').value;
+    usuarioActual.correo = nuevoCorreo;
+    actualizarArrayUsuarios();
+    alert('Correo actualizado con éxito');
+}
 
-        // Actualizar la contraseña si se proporcionó una nueva
-        if (nuevaPassword) {
-            usuarioActual.password = nuevaPassword;
-        }
+function cambiarContrasena(event) {
+    event.preventDefault();
+    const contrasenaActual = document.getElementById('contrasenaActual').value;
+    const nuevaContrasena = document.getElementById('nuevaContrasena').value;
 
-        // Actualizar la imagen de perfil si se seleccionó una nueva
-        if (imagenInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                usuarioActual.imagenPerfil = e.target.result;
-                actualizarUsuario(usuarioActual);
-            };
-            reader.readAsDataURL(imagenInput.files[0]);
-        } else {
-            actualizarUsuario(usuarioActual);
-        }
+    if (contrasenaActual !== usuarioActual.password) {
+        alert('La contraseña actual es incorrecta.');
+        return;
+    }
+
+    if (nuevaContrasena) {
+        usuarioActual.password = nuevaContrasena;
+        actualizarArrayUsuarios();
+        alert('Contraseña actualizada con éxito');
+    } else {
+        alert('Por favor ingresa una nueva contraseña válida');
+    }
+}
+
+
+// Función para eliminar la cuenta
+function eliminarCuenta(event) {
+    event.preventDefault();
+    const confirmacion = confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.');
+    if (confirmacion) {
+        // Eliminar el usuario de localStorage
+        localStorage.removeItem('usuario-sesion');
+        alert('Cuenta eliminada con éxito.');
+        // Redirigir a la página de inicio
+        window.location.href = 'index.html';
+    }
+}
+
+// Evento que se ejecuta cuando el DOM está completamente cargado
+document.addEventListener("DOMContentLoaded", function() {
+    // Inicializar el usuario actual
+    usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
+    
+    // Agregar eventos a los botones del menú
+    document.querySelectorAll('.boton-menu').forEach(boton => {
+        boton.addEventListener('click', manejarClicMenu);
     });
 
-    function actualizarPerfil(event) {
-        event.preventDefault();
-    
-        const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
-        const nombreInput = document.getElementById('nombre');
-        const imagenInput = document.getElementById('imagenPerfil');
-        const passwordActual = document.getElementById('passwordActual').value;
-        const nuevaPassword = document.getElementById('nuevaPassword').value;
-        const confirmarPassword = document.getElementById('confirmarPassword').value;
-    
-        // Verificar la contraseña actual
-        if (passwordActual !== usuarioActual.password) {
-            alert('La contraseña actual es incorrecta.');
-            return;
-        }
-    
-        // Verificar si las nuevas contraseñas coinciden
-        if (nuevaPassword !== confirmarPassword) {
-            alert('Las nuevas contraseñas no coinciden.');
-            return;
-        }
-    
-        // Actualizar el nombre
-        usuarioActual.nombre = nombreInput.value;
-    
-        // Actualizar la contraseña si se proporcionó una nueva
-        if (nuevaPassword) {
-            usuarioActual.password = nuevaPassword;
-        }
-    
-        // Actualizar la imagen de perfil si se seleccionó una nueva
-        if (imagenInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                usuarioActual.imagenPerfil = e.target.result;
-                actualizarUsuario(usuarioActual);
-            };
-            reader.readAsDataURL(imagenInput.files[0]);
-        } else {
-            // Si no se seleccionó una nueva imagen, asegúrate de que haya una imagen predeterminada
-            if (!usuarioActual.imagenPerfil) {
-                usuarioActual.imagenPerfil = DEFAULT_PROFILE_IMAGE;
-            }
-            actualizarUsuario(usuarioActual);
-        }
-    }
+    // Secciones de edición de perfil
+    document.getElementById('formNombre').addEventListener('submit', guardarNombre);
+    document.getElementById('formTelefono').addEventListener('submit', guardarTelefono);
+    document.getElementById('formCorreo').addEventListener('submit', guardarCorreo);
+    document.getElementById('formContrasena').addEventListener('submit', cambiarContrasena);
+    document.getElementById('formEliminar').addEventListener('submit', eliminarCuenta);
+
+    // Mostrar la sección de Nombre por defecto
+    document.getElementById('seccionNombre').style.display = 'block';
 });

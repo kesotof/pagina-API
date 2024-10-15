@@ -6,7 +6,6 @@ const usuarios = [
         correo: "admin@example.com",
         password: "admin123",
         roles: ["Administrador"],
-        imagenPerfil: null
     },
     {
         id: 2,
@@ -14,7 +13,6 @@ const usuarios = [
         correo: "crea@example.com",
         password: "crea",
         roles: ["Creador"],
-        imagenPerfil: null
     },
     {
         id: 3,
@@ -22,7 +20,6 @@ const usuarios = [
         correo: "dona@example.com",
         password: "dona",
         roles: ["Donador"],
-        imagenPerfil: null
     }
 ];
 
@@ -31,18 +28,6 @@ if (!localStorage.getItem("usuarios")) {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 }
 
-// Función para actualizar la imagen del usuario en todas las páginas
-function actualizarImagenUsuario() {
-    const usuarioSesion = JSON.parse(localStorage.getItem('usuario-sesion'));
-    const userImage = document.getElementById('userImage');
-    if (userImage) {
-        if (usuarioSesion && usuarioSesion.imagenPerfil) {
-            userImage.src = usuarioSesion.imagenPerfil;
-        } else {
-            userImage.src = 'default-profile.png';
-        }
-    }
-}
 
 // Función para iniciar sesión
 function iniciarSesion(nombre, password) {
@@ -52,7 +37,6 @@ function iniciarSesion(nombre, password) {
     if (usuario) {
         localStorage.setItem("usuario-sesion", JSON.stringify(usuario));
         console.log("Inicio de sesión exitoso");
-        actualizarImagenUsuario();
         return true;
     } else {
         console.log("Nombre de usuario o contraseña incorrectos");
@@ -141,7 +125,6 @@ function actualizarInterfazUsuario() {
         };
     }
 
-    actualizarImagenUsuario();
 }
 
 // Función para manejar el clic en los botones del popover
@@ -176,76 +159,12 @@ function registrarUsuario(nombre, correo, password, rol) {
         correo: correo,
         password: password,
         roles: [rol],
-        imagenPerfil: null
     };
 
     usuarios.push(nuevoUsuario);
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
     console.log("Usuario registrado con éxito");
     return true;
-}
-
-// Función para actualizar el perfil del usuario
-function actualizarPerfil(event) {
-    event.preventDefault();
-    
-    const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
-    const nombreInput = document.getElementById('nombre');
-    const imagenInput = document.getElementById('imagenPerfil');
-    const passwordActual = document.getElementById('passwordActual').value;
-    const nuevaPassword = document.getElementById('nuevaPassword').value;
-    const confirmarPassword = document.getElementById('confirmarPassword').value;
-
-    // Verificar la contraseña actual
-    if (passwordActual !== usuarioActual.password) {
-        alert('La contraseña actual es incorrecta.');
-        return;
-    }
-
-    // Verificar si las nuevas contraseñas coinciden
-    if (nuevaPassword !== confirmarPassword) {
-        alert('Las nuevas contraseñas no coinciden.');
-        return;
-    }
-
-    // Actualizar el nombre
-    usuarioActual.nombre = nombreInput.value;
-
-    // Actualizar la contraseña si se proporcionó una nueva
-    if (nuevaPassword) {
-        usuarioActual.password = nuevaPassword;
-    }
-
-    // Actualizar la imagen de perfil si se seleccionó una nueva
-    if (imagenInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            usuarioActual.imagenPerfil = e.target.result;
-            actualizarUsuario(usuarioActual);
-        };
-        reader.readAsDataURL(imagenInput.files[0]);
-    } else {
-        actualizarUsuario(usuarioActual);
-    }
-}
-
-function actualizarUsuario(usuarioActualizado) {
-    // Actualizar el usuario en el localStorage
-    localStorage.setItem('usuario-sesion', JSON.stringify(usuarioActualizado));
-
-    // Actualizar el usuario en la lista de usuarios
-    let usuarios = JSON.parse(localStorage.getItem('usuarios'));
-    const index = usuarios.findIndex(u => u.id === usuarioActualizado.id);
-    if (index !== -1) {
-        usuarios[index] = usuarioActualizado;
-        localStorage.setItem('usuarios', JSON.stringify(usuarios));
-    }
-
-    alert('Perfil actualizado con éxito.');
-    // Actualizar la imagen del usuario en la página actual
-    actualizarImagenUsuario();
-    // Redirigir al usuario a la página principal o de perfil
-    window.location.href = 'index.html';
 }
 
 // Evento que se ejecuta cuando el DOM está completamente cargado
@@ -274,41 +193,6 @@ document.addEventListener("DOMContentLoaded", function() {
     if (searchBar) {
         searchBar.addEventListener("input", function() {
             console.log("Buscando: " + this.value);
-            // Aquí puedes añadir la lógica para buscar campañas
-        });
-    }
-
-    // Agregar evento al formulario de edición de perfil
-    const editProfileForm = document.getElementById('editProfileForm');
-    if (editProfileForm) {
-        editProfileForm.addEventListener('submit', actualizarPerfil);
-
-        // Cargar datos del usuario actual en el formulario
-        const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
-        if (usuarioActual) {
-            document.getElementById('nombre').value = usuarioActual.nombre;
-            const previewImagen = document.getElementById('previewImagen');
-            if (usuarioActual.imagenPerfil) {
-                previewImagen.src = usuarioActual.imagenPerfil;
-                previewImagen.style.display = 'block';
-            } else {
-                previewImagen.src = 'default-profile.png';
-                previewImagen.style.display = 'block';
-            }
-        }
-
-        // Previsualizar la imagen seleccionada
-        const imagenInput = document.getElementById('imagenPerfil');
-        imagenInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImagen').src = e.target.result;
-                    document.getElementById('previewImagen').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
         });
     }
 });
