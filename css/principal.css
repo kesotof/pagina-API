@@ -539,48 +539,69 @@ footer {
     transition: color 0.3s;
 }
 
-
-
-
-
-
-/* Estilo del popover */
+/* Estilo para el popover */
 .popover {
     position: absolute;
-    top: 60px; /* Ajusta esta distancia para que se vea debajo del enlace */
-    transform: translateX(-50%); /* Ajusta para que esté perfectamente centrado */
+    top: 70px;
+    left: 1400px;
     width: 200px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #2E2E2E;  
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    z-index: 10;
+    padding: 10px 0;
+    display: none;
+    z-index: 100;
 }
 
-.popover::after {
-    content: "";
-    position: absolute;
-    top: -10px; /* Posición de la flecha justo encima del popover */
-    left: 50%; /* Centra la flecha en el popover */
-    transform: translateX(-50%); /* Ajusta la flecha para que esté centrada */
-    border-width: 10px;
-    border-style: solid;
-    border-color: transparent transparent #f9f9f9 transparent; /* Flecha hacia abajo */
+.popover ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
-.popover p {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 0 0 10px;
-    color: #333;
+.popover li {
+    text-align: left;
 }
 
-#cerrarSesionBtn {
+.popover button {
     width: 100%;
-    background-color: #e74c3c;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
 }
 
-#cerrarSesionBtn:hover {
-    background-color: #c0392b;
+.popover button:hover {
+    background-color: green;  
+}
+
+.popover button span {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Agregar iconos si es necesario (simulamos con contenido textual) */
+.popover button::before {
+    content: "\1F464"; 
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+#cerrarSesionBtn::before {
+    content: "\274C";
+}
+
+#editarPerfilBtn::before {
+    content: "\270F";
+}
+
+#verCampanasBtn::before {
+    content: "\1F4E6";
+}
+
+#verHistorialBtn::before {
+    content: "\1F4D6";
 }
