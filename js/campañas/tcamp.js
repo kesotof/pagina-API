@@ -63,7 +63,10 @@ function loadComments() {
             <div class="comment-header">
                 <strong>${comment.author}</strong> - ${new Date(comment.timestamp).toLocaleString()}
             </div>
-            <div class="comment-content">${comment.text}</div>
+            <div class="comment-content">${comment.text}
+            <button onclick="deleteComment()">Eliminar</button>
+            </div>
+            
         `;
         commentsList.appendChild(commentElement);
     });
@@ -80,6 +83,8 @@ function loadCommentForm() {
                 <textarea id="comment-text" placeholder="Escribe tu comentario aquí"></textarea>
                 <button onclick="addComment()">Enviar comentario</button>
             </div>
+
+
         `;
     } else {
         commentFormContainer.innerHTML = `
@@ -105,6 +110,14 @@ function addComment() {
         document.getElementById('comment-text').value = '';
         loadComments();
     }
+}
+
+function deleteComment() {
+    const projectId = new URLSearchParams(window.location.search).get('id');
+    const comments = JSON.parse(localStorage.getItem(`comments-${projectId}`)) || [];
+    comments.pop();
+    localStorage.setItem(`comments-${projectId}`, JSON.stringify(comments));
+    loadComments();
 }
 
 async function loadProjectDetails(projectId, debugInfo) {
