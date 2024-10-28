@@ -223,6 +223,8 @@ function mostrarHistorialDonaciones() {
         historialContainer.innerHTML = tabla;
     }
 
+
+
 function mostrarSeccion(seccionId) {
     const secciones = document.querySelectorAll('.seccion');
     secciones.forEach(seccion => {
@@ -230,7 +232,7 @@ function mostrarSeccion(seccionId) {
     });
     document.getElementById(seccionId).style.display = 'block';
 
-    // Renderizar proyectos solo si se muestra la sección de campañas.
+    // Renderizar proyectos solo si se muestra la sección de campañas
     if (seccionId === 'seccionCampanas') {
         renderProyectos();
     }

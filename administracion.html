@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración</title>
+    <link rel="stylesheet" href="css/administracion.css">
     <style>
         .seccion {
             display: none;
@@ -11,12 +12,18 @@
     </style>
 </head>
 <body>
-    <h1>Panel de Administración</h1>
     <nav>
+        <a href="/index.html" style="text-decoration: none;">
+            <h1 class="logo">API</h1>
+        </a>
+        <h1>Panel de Administración</h1>
         <button id="btnDonaciones">Gestionar Donaciones</button>
         <button id="btnCampanas">Gestionar Campañas</button>
         <button id="btnUsuarios">Gestionar Usuarios</button>
         <button id="btnReportes">Gestionar Reportes</button>
+        <footer>
+            <p class="texto-footer">© 2022 Apoyando Proyectos Innovadores</p>
+        </footer>
     </nav>
     <div id="seccionDonaciones" class="seccion">
         <h2>Gestionar Donaciones</h2>
