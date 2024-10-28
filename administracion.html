@@ -4,40 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración</title>
-    
+    <style>
+        .seccion {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Panel de Administración</h1>
-        <nav>
-            <button id="gestionCampanas" class="boton-menu">Gestión de Campañas</button>
-            <button id="gestionComentarios" class="boton-menu">Gestión de Comentarios</button>
-            <button id="historialDonaciones" class="boton-menu">Historial de Donaciones</button>
-            <button id="gestionUsuarios" class="boton-menu">Gestión de Usuarios</button>
-        </nav>
-    </header>
-    <main>
-        <section id="seccionCampanas" class="seccion" style="display: none;">
-            <h2>Gestión de Campañas</h2>
-            <form id="formNuevaCampana">
-                <input type="text" id="nombreCampana" placeholder="Nombre de la campaña" required>
-                <button type="submit">Agregar Campaña</button>
-            </form>
-            <ul id="campanasList"></ul>
-        </section>
-        <section id="seccionComentarios" class="seccion" style="display: none;">
-            <h2>Gestión de Comentarios</h2>
-            <ul id="comentariosList"></ul>
-        </section>
-        <section id="seccionDonaciones" class="seccion" style="display: none;">
-            <h2>Historial de Donaciones</h2>
-            <ul id="donacionesList"></ul>
-        </section>
-        <section id="seccionUsuarios" class="seccion" style="display: none;">
-            <h2>Gestión de Usuarios</h2>
-            <ul id="usuariosList"></ul>
-        </section>
-    </main>
-    <script src="js/administracion.js"></script>
+    <h1>Panel de Administración</h1>
+    <nav>
+        <button id="btnDonaciones">Gestionar Donaciones</button>
+        <button id="btnCampanas">Gestionar Campañas</button>
+        <button id="btnUsuarios">Gestionar Usuarios</button>
+        <button id="btnReportes">Gestionar Reportes</button>
+    </nav>
+    <div id="seccionDonaciones" class="seccion">
+        <h2>Gestionar Donaciones</h2>
+        <div id="historialDonaciones"></div>
+    </div>
+    <div id="seccionCampanas" class="seccion">
+        <h2>Gestionar Campañas</h2>
+        <ul id="projectosContainer"></ul>
+    </div>
+    <div id="seccionUsuarios" class="seccion">
+        <h2>Gestionar Usuarios</h2>
+        <ul id="usuariosContainer"></ul>
+    </div>
+    <div id="seccionReportes" class="seccion">
+        <h2>Gestionar Reportes</h2>
+        <ul id="lista-reportes"></ul>
+    </div>
+    <script src="js/listarReportes.js" defer></script>
+    <script src="js/administracion.js" defer></script>
 </body>
 </html>
