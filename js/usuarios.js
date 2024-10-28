@@ -73,7 +73,6 @@ function verificarSesion() {
     }
 }
 
-// Función para actualizar la interfaz de usuario
 function actualizarInterfazUsuario() {
     const loginLink = document.getElementById("loginLink");
     const usuarioSesion = JSON.parse(localStorage.getItem('usuario-sesion'));
@@ -81,6 +80,7 @@ function actualizarInterfazUsuario() {
     const verCampanasBtn = document.getElementById("verCampanasBtn");
     const verHistorialBtn = document.getElementById("verHistorialBtn");
     const campaignBtn = document.getElementById("campaignBtn");
+    const adminBtn = document.getElementById("adminBtn"); // Nuevo botón de administración
 
     if (loginLink) {
         if (usuarioSesion) {
@@ -98,9 +98,18 @@ function actualizarInterfazUsuario() {
                 if (usuarioSesion.roles.includes("Creador")) {
                     verCampanasBtn.style.display = "block";
                     verHistorialBtn.style.display = "none";
+                    if (adminBtn) {
+                        adminBtn.style.display = "block"; // Mostrar el botón de administración
+                        adminBtn.onclick = function() {
+                            window.location.href = 'administracion.html'; // Redirigir a la página de administración
+                        };
+                    }
                 } else if (usuarioSesion.roles.includes("Donador")) {
                     verCampanasBtn.style.display = "none";
                     verHistorialBtn.style.display = "block";
+                    if (adminBtn) {
+                        adminBtn.style.display = "none"; // Ocultar el botón de administración
+                    }
                 }
             }
         } else {
@@ -113,7 +122,6 @@ function actualizarInterfazUsuario() {
         }
     }
 
-    // Mostrar el botón de iniciar campaña para todos
     if (campaignBtn) {
         campaignBtn.style.display = "block";
         campaignBtn.onclick = function() {
@@ -124,7 +132,6 @@ function actualizarInterfazUsuario() {
             }
         };
     }
-
 }
 
 // Función para manejar el clic en los botones del popover
