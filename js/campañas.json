@@ -3,11 +3,11 @@
         "id": 1,
         "redirect": "",
         "creator": "Juan Pérez",
-        "titulo": "Smartphone 9",
+        "title": "Smartphone 9",
         "descripcion": "Un teléfono inteligente de última generación con pantalla de 6.5 pulgadas.",
-        "imagen": "/image/proyectosD/magic.jpg",
+        "image": "/image/proyectosD/magic.jpg",
         "meta": 799999,
-        "funded":12,
+        "funded":1000,
         "category": "Tecnología"
     }
 ]

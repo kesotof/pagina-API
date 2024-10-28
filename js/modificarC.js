@@ -1,10 +1,14 @@
 // Obtener el ID de la campaña de la URL
 const urlParams = new URLSearchParams(window.location.search);
-const campanaId = parseInt(urlParams.get('id'));
+const campaignId = urlParams.get('id'); // Ahora será "source-index"
 
-// Cargar la campaña seleccionada
-let campanas = JSON.parse(localStorage.getItem('campañas')) || [];
-let campana = campanas[campanaId];
+// Parsear el ID para obtener la fuente y el índice
+const [source, index] = campaignId.split('-');
+const numericIndex = parseInt(index);
+
+// Obtener todas las campañas guardadas en sessionStorage
+const todasLasCampanas = JSON.parse(sessionStorage.getItem('todasLasCampanas'));
+let campana = todasLasCampanas[numericIndex];
 
 if (!campana) {
     alert('Campaña no encontrada');
@@ -15,6 +19,36 @@ if (!campana) {
 function mostrarSeccion(id) {
     document.querySelectorAll('.seccion').forEach(seccion => seccion.style.display = 'none');
     document.getElementById(id).style.display = 'block';
+}
+
+async function actualizarCampana() {
+    if (source === 'json') {
+        try {
+            const campanasJSON = todasLasCampanas.filter(c => c.source === 'json');
+            const response = await fetch('js/campañas.json', {
+                method: 'POST', // Cambiado a POST
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'update', data: campanasJSON }) // Enviar acción y datos
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Error al actualizar el archivo JSON: ${response.status} ${response.statusText} - ${errorText}`);
+            }
+        } catch (error) {
+            console.error("Error al actualizar el JSON:", error);
+            alert(`Error al actualizar la campaña en el JSON: ${error.message}`);
+            return;
+        }
+    } else {
+        const campanasLocal = todasLasCampanas.filter(c => c.source === 'local');
+        localStorage.setItem('campañas', JSON.stringify(campanasLocal));
+    }
+
+    todasLasCampanas[numericIndex] = campana;
+    sessionStorage.setItem('todasLasCampanas', JSON.stringify(todasLasCampanas));
 }
 
 // Event listeners para los botones del menú
@@ -28,33 +62,27 @@ document.getElementById('btnHistorial').addEventListener('click', () => {
 document.getElementById('btnTerminar').addEventListener('click', () => mostrarSeccion('seccionTerminar'));
 document.getElementById('btnEliminar').addEventListener('click', () => mostrarSeccion('seccionEliminar'));
 
-// Función para actualizar la campaña en localStorage
-function actualizarCampana() {
-    campanas[campanaId] = campana;
-    localStorage.setItem('campañas', JSON.stringify(campanas));
-}
-
 // Manejar cambio de nombre
-document.getElementById('formNombre').addEventListener('submit', (e) => {
+document.getElementById('formNombre').addEventListener('submit', async (e) => {
     e.preventDefault();
     campana.title = document.getElementById('nuevoNombre').value;
-    actualizarCampana();
+    await actualizarCampana();
     alert('Nombre actualizado con éxito');
 });
 
 // Manejar cambio de descripción
-document.getElementById('formDescripcion').addEventListener('submit', (e) => {
+document.getElementById('formDescripcion').addEventListener('submit', async (e) => {
     e.preventDefault();
     campana.descripcion = document.getElementById('nuevaDescripcion').value;
-    actualizarCampana();
+    await actualizarCampana();
     alert('Descripción actualizada con éxito');
 });
 
 // Manejar cambio de meta
-document.getElementById('formMeta').addEventListener('submit', (e) => {
+document.getElementById('formMeta').addEventListener('submit', async (e) => {
     e.preventDefault();
     campana.meta = parseFloat(document.getElementById('nuevaMeta').value);
-    actualizarCampana();
+    await actualizarCampana();
     alert('Meta actualizada con éxito');
 });
 
@@ -104,21 +132,60 @@ function mostrarHistorialDonaciones() {
 }
 
 // Manejar terminar campaña
-document.getElementById('formTerminar').addEventListener('submit', (e) => {
+document.getElementById('formTerminar').addEventListener('submit', async (e) => {
     e.preventDefault();
-    campana.terminada = true; // Cambia el estado de la campaña a terminada
-    actualizarCampana();
+    campana.terminada = true;
+    await actualizarCampana();
     alert('Campaña terminada con éxito');
     window.location.href = 'index.html';
 });
 
 // Manejar eliminar campaña
-document.getElementById('formEliminar').addEventListener('submit', (e) => {
+document.getElementById('formEliminar').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (confirm('¿Estás seguro de que quieres eliminar esta campaña? Esta acción no se puede deshacer.')) {
-        campanas.splice(campanaId, 1);
-        localStorage.setItem('campañas', JSON.stringify(campanas));
+        if (source === 'json') {
+            try {
+                // Eliminar del JSON
+                const campanasJSON = todasLasCampanas.filter(c => c.source === 'json');
+                campanasJSON.splice(numericIndex, 1);
+                await fetch('data/campanas.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(campanasJSON)
+                });
+            } catch (error) {
+                console.error("Error al eliminar del JSON:", error);
+                alert('Error al eliminar la campaña del JSON');
+                return;
+            }
+        } else {
+            // Eliminar del localStorage
+            const campanasLocal = todasLasCampanas.filter(c => c.source === 'local');
+            campanasLocal.splice(numericIndex - todasLasCampanas.filter(c => c.source === 'json').length, 1);
+            localStorage.setItem('campañas', JSON.stringify(campanasLocal));
+        }
         alert('Campaña eliminada con éxito');
+        window.location.href = 'index.html';
+    }
+});
+
+// Manejar retiro de fondos
+document.getElementById('btnRetirar').addEventListener('click', () => {
+    mostrarSeccion('seccionRetirar');
+});
+
+document.getElementById('formRetirar').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const numeroTarjeta = document.getElementById('numeroTarjeta').value;
+    const tipoTarjeta = document.getElementById('tipoTarjeta').value;
+
+    if (confirm(`¿Estás seguro de que quieres retirar los fondos a la tarjeta ${tipoTarjeta} con número ${numeroTarjeta}? Esto reseteará el monto financiado a cero.`)) {
+        campana.funded = 0;
+        await actualizarCampana();
+        alert(`Fondos retirados con éxito a la tarjeta ${tipoTarjeta}. Monto financiado reiniciado a 0.`);
         window.location.href = 'index.html';
     }
 });
@@ -130,24 +197,3 @@ document.getElementById('nuevaMeta').value = campana.meta;
 
 // Mostrar la sección de nombre por defecto
 mostrarSeccion('seccionNombre');
-
-// Event listener para el botón de Retirar Fondos
-document.getElementById('btnRetirar').addEventListener('click', () => {
-    mostrarSeccion('seccionRetirar'); // Mostrar la sección de retirar fondos
-});
-
-// Manejar el formulario de retiro de fondos
-document.getElementById('formRetirar').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const numeroTarjeta = document.getElementById('numeroTarjeta').value;
-    const tipoTarjeta = document.getElementById('tipoTarjeta').value;
-
-    const confirmacion = confirm(`¿Estás seguro de que quieres retirar los fondos a la tarjeta ${tipoTarjeta} con número ${numeroTarjeta}? Esto reseteará el monto financiado a cero.`);
-    
-    if (confirmacion) {
-        campana.funded = 0; // Reiniciar funded a 0
-        actualizarCampana(); // Actualizar campaña en localStorage
-        alert(`Fondos retirados con éxito a la tarjeta ${tipoTarjeta}. Monto financiado reiniciado a 0.`);
-        window.location.href = 'index.html'; // Redirigir a la página principal
-    }
-});

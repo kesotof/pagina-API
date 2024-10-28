@@ -73,7 +73,7 @@ async function filtrarProyectos(categoria) {
             estado = "Terminado";
         } else {
             const porcentajeFinanciado = (proyecto.funded / proyecto.goal) * 100;
-            estado = porcentajeFinanciado >= 50 ? "Activo" : "Inactivo";
+            estado = porcentajeFinanciado >= 50 ? "Activo" : "Activo";
         }
 
         // Determinar el color del estado
