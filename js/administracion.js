@@ -118,10 +118,6 @@ function renderUsuarios() {
     });
 }
 
-function cargarReportes() {
-    return JSON.parse(localStorage.getItem('reportes')) || [];
-}
-
 function renderReportes() {
     const reportes = cargarReportes();
     const container = document.getElementById('lista-reportes');
@@ -163,7 +159,7 @@ function editarReporte(index) {
         renderReportes();
     }
 }
-
+// Función para eliminar una donación
 function eliminarDonacion(index) {
     const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
     if (!usuarioActual) return;
@@ -178,84 +174,83 @@ function eliminarDonacion(index) {
     }
 }
 
+
+// Mostrar historial de donaciones
 function mostrarHistorialDonaciones() {
     const historialContainer = document.getElementById('historialDonaciones');
     const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
 
-    if (!usuarioActual) {
-        historialContainer.innerHTML = '<p class="no-donations">No se ha iniciado sesión.</p>';
-        return;
-    }
 
-    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-    const usuario = usuarios.find(u => u.id === usuarioActual.id);
+        if (!usuarioActual) {
+            historialContainer.innerHTML = '<p class="no-donations">No se ha iniciado sesión.</p>';
+            return;
+        }
 
-    if (!usuario || !usuario.historialDonaciones || usuario.historialDonaciones.length === 0) {
-        historialContainer.innerHTML = '<p class="no-donations">No hay donaciones registradas.</p>';
-        return;
-    }
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const usuario = usuarios.find(u => u.id === usuarioActual.id);
 
-    let tabla = `
-        <table>
-            <tr>
-                <th>Fecha</th>
-                <th>Proyecto</th>
-                <th>Monto</th>
-                <th>Método de Pago</th>
-                <th>Donante</th>
-                <th>Acciones</th>
-            </tr>
-    `;
+        if (!usuario || !usuario.historialDonaciones || usuario.historialDonaciones.length === 0) {
+            historialContainer.innerHTML = '<p class="no-donations">No hay donaciones registradas.</p>';
+            return;
+        }
 
-    usuario.historialDonaciones.forEach((donacion, index) => {
-        tabla += `
-            <tr>
-                <td>${new Date(donacion.fecha).toLocaleString()}</td>
-                <td>${donacion.proyecto}</td>
-                <td>${donacion.monto} CLP</td>
-                <td>${donacion.metodoPago}</td>
-                <td>${donacion.nombreDonante || 'Anónimo'}</td>
-                <td><button onclick="eliminarDonacion(${index})">Eliminar</button></td>
-            </tr>
+        let tabla = `
+            <table>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Proyecto</th>
+                    <th>Monto</th>
+                    <th>Método de Pago</th>
+                    <th>Donante</th>
+                    <th>Acciones</th>
+                </tr>
         `;
-    });
 
-    tabla += '</table>';
-    historialContainer.innerHTML = tabla;
-}
+        usuario.historialDonaciones.forEach((donacion, index) => {
+            tabla += `
+                <tr>
+                    <td>${new Date(donacion.fecha).toLocaleString()}</td>
+                    <td>${donacion.proyecto}</td>
+                    <td>${donacion.monto} CLP</td>
+                    <td>${donacion.metodoPago}</td>
+                    <td>${donacion.nombreDonante || 'Anónimo'}</td>
+                    <td><button onclick="eliminarDonacion(${index})">Eliminar</button></td>
+                </tr>
+            `;
+        });
+
+        tabla += '</table>';
+        historialContainer.innerHTML = tabla;
+    }
 
 function mostrarSeccion(seccionId) {
-    // Ocultar todas las secciones
     const secciones = document.querySelectorAll('.seccion');
     secciones.forEach(seccion => {
         seccion.style.display = 'none';
     });
-
-    // Mostrar la sección seleccionada
     document.getElementById(seccionId).style.display = 'block';
 
-    // Actualizar clases de los botones
-    const botones = document.querySelectorAll('nav button');
-    botones.forEach(boton => {
-        boton.classList.remove('active');
-        if (boton.id === `btn${seccionId.replace('seccion', '')}`) {
-            boton.classList.add('active');
-        }
-    });
-
-    // Renderizar el contenido específico según la sección
+    // Renderizar proyectos solo si se muestra la sección de campañas
     if (seccionId === 'seccionCampanas') {
         renderProyectos();
-    } else if (seccionId === 'seccionUsuarios') {
+    }
+
+    // Renderizar usuarios solo si se muestra la sección de usuarios
+    if (seccionId === 'seccionUsuarios') {
         renderUsuarios();
-    } else if (seccionId === 'seccionReportes') {
+    }
+
+    // Renderizar reportes solo si se muestra la sección de reportes
+    if (seccionId === 'seccionReportes') {
         renderReportes();
-    } else if (seccionId === 'seccionDonaciones') {
+    }
+
+    // Mostrar historial de donaciones solo si se muestra la sección de donaciones
+    if (seccionId === 'seccionDonaciones') {
         mostrarHistorialDonaciones();
     }
 }
 
-// Event Listeners
 document.getElementById('btnDonaciones').addEventListener('click', () => {
     mostrarSeccion('seccionDonaciones');
 });
@@ -272,26 +267,9 @@ document.getElementById('btnReportes').addEventListener('click', () => {
     mostrarSeccion('seccionReportes');
 });
 
-// Hacer funciones disponibles globalmente
+// Asegurarse de que las funciones estén disponibles en el ámbito global
 window.eliminarProyecto = eliminarProyecto;
 window.editarProyecto = editarProyecto;
 window.eliminarUsuario = eliminarUsuario;
 window.editarUsuario = editarUsuario;
-window.eliminarReporte = eliminarReporte;
-window.editarReporte = editarReporte;
-window.eliminarDonacion = eliminarDonacion;
-
-// Agregar usuarios de ejemplo
-const usuariosEjemplo = [
-    { nombre: "Juan Pérez", email: "juan.perez@example.com" },
-    { nombre: "María García", email: "maria.garcia@example.com" },
-    { nombre: "Carlos López", email: "carlos.lopez@example.com" }
-];
-localStorage.setItem("usuarios", JSON.stringify(usuariosEjemplo));
-
-// Mostrar la sección de donaciones por defecto al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    mostrarSeccion('seccionDonaciones');
-    // Activar el botón de donaciones
-    document.getElementById('btnDonaciones').classList.add('active');
-});
+window.cargarReportes = cargarReportes;

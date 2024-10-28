@@ -20,6 +20,20 @@ const usuarios = [
         correo: "dona@example.com",
         password: "dona",
         roles: ["Donador"],
+    },
+    {
+        id: 4,
+        nombre: "pedro",
+        correo: " pedro@gmail.com",
+        password: " pedro",
+        roles: ["Donador"],
+    },
+    {
+        id: 5,
+        nombre: "juan",
+        correo: " juan@gmail.com",
+        password: " juan",
+        roles: ["Creador"],
     }
 ];
 
