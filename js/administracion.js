@@ -118,47 +118,6 @@ function renderUsuarios() {
     });
 }
 
-function renderReportes() {
-    const reportes = cargarReportes();
-    const container = document.getElementById('lista-reportes');
-    container.innerHTML = '';
-
-    if (reportes.length > 0) {
-        reportes.forEach((reporte, index) => {
-            const li = document.createElement('li');
-            li.classList.add('list-group-item');
-            li.innerHTML = `
-                <strong>Razón:</strong> ${reporte.razon} <br> 
-                <strong>Descripción:</strong> ${reporte.descripcion} <br>
-                <button onclick="eliminarReporte(${index})">Eliminar</button>
-                <button onclick="editarReporte(${index})">Editar</button>
-            `;
-            container.appendChild(li);
-        });
-    } else {
-        container.innerHTML = '<li class="list-group-item">No hay reportes guardados</li>';
-    }
-}
-
-function eliminarReporte(index) {
-    const reportes = cargarReportes();
-    reportes.splice(index, 1);
-    localStorage.setItem('reportes', JSON.stringify(reportes));
-    renderReportes();
-}
-
-function editarReporte(index) {
-    const reportes = cargarReportes();
-    const reporte = reportes[index];
-    const nuevaRazon = prompt('Editar Razón:', reporte.razon);
-    const nuevaDescripcion = prompt('Editar Descripción:', reporte.descripcion);
-
-    if (nuevaRazon !== null && nuevaDescripcion !== null) {
-        reportes[index] = { razon: nuevaRazon, descripcion: nuevaDescripcion };
-        localStorage.setItem('reportes', JSON.stringify(reportes));
-        renderReportes();
-    }
-}
 // Función para eliminar una donación
 function eliminarDonacion(index) {
     const usuarioActual = JSON.parse(localStorage.getItem('usuario-sesion'));
@@ -272,4 +231,4 @@ window.eliminarProyecto = eliminarProyecto;
 window.editarProyecto = editarProyecto;
 window.eliminarUsuario = eliminarUsuario;
 window.editarUsuario = editarUsuario;
-window.cargarReportes = cargarReportes;
+

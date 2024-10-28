@@ -130,6 +130,7 @@ button:not(nav button):hover {
   background-color: var(--hover-green);
 }
 
+
 /* Dark Mode Styles */
 @media (prefers-color-scheme: dark) {
   :root {
