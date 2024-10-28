@@ -168,6 +168,16 @@ img {
     margin-top: 5px;
 }
 
+.comment-content button{
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 800px;
+}
+
 .comment-form textarea {
     width: 100%;
     padding: 10px;
@@ -178,6 +188,15 @@ img {
 
 .comment-form button {
     background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonDelete {
+    background-color: red;
     color: white;
     padding: 10px 15px;
     border: none;
